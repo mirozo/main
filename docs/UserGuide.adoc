@@ -63,6 +63,31 @@ image::quickstart/5_excel.png[width="500", align="left"]
 
 ====
 
+=== Viewing help
+Shows helpful information on using this software.
+Format: `help`
+
+=== Importing existing availabilities `import`
+==== Importing interviewers’ availability
+Imports interviewers’ availability from a comma separated values (CSV) file. +
+Format: `import interviewer PATH_TO_FILE` +
+    - PATH_TO_FILE is the absolute path to the file. +
+    - E.g C:\\Users\Bob\file.csv
+
+Example:
+
+ import interviewer C:\Users\johndoe\Interviewers.csv
+
+==== Importing interviewees’ availability
+Imports interviewees’ availability from a comma separated values (CSV) file. +
+Format: `import interviewee PATH_TO_FILE` +
+    - PATH_TO_FILE is the absolute path to the file. +
+    - E.g C:\\Users\Bob\file.csv
+
+Example:
+
+ import interviewer C:\Users\johndoe\Interviewees.csv
+
 === Add interviewers/interviewees `add`
 Manually add a new interviewer to the database. +
 Format: `add interviewer name:"NAME" slot:SLOT...` +
@@ -78,7 +103,62 @@ Notes:
 - Slots should be given in the format: `DD/MM/YYYY HH:MM - DD/MM/YYYY HH:MM`, where the first date and time is the starting time and the second date and time is the ending time of availability.
 - The starting date should be a date and time that is earlier than the ending date
 
+=== UI Display
 
+==== Viewing details of interviewees
+You can to view the list of interviewees and the following information:
+1. Name
+2. Time slot for interview
+3. Phone number
+4. Email
+5. Tags
+
+The interviewee list can be viewed by typing the following command +
+Format: `display interviewees`
+
+image::Ui/Interviewee.png[width="500", align="left"]
+
+In this screen, you can edit, add or delete interviewees accordingly by using the other features explained in
+this User Guide.
+
+==== Viewing details of interviewers
+You are able to view the list of interviewers and the following information:
+1. Name
+2. Time slot for interview
+3. Phone number
+4. Email
+5. Tags
+
+The interviewee list can be viewed by typing the following command +
+Format: `display interviewers`
+
+In this screen, you can edit, add or delete interviewers accordingly by using the other features explained in
+this User Guide.
+
+==== Display weekly schedule
+Display the interviews that has been scheduled by the application. Allows you to have an weekly overview of
+interviews during that week by typing the following command +
+Format:  `display date DATE (eg. 24/06/2019)`
+
+Doing so will allow the scheduler to show the timetable for that week.
+
+image::Ui/Timetable.png[width="500", align="left"]
+
+==== Display available timeslots
+This is used to display the available timeslot that you have indicated in your excel sheet as you have imported
+into this scheduler. Using the following command +
+Format: `disply available date DATE (eg. 24/06/2019)`
+
+This will also show a weekly timetable, however this timetable will show the timeslots that are available and the
+rest of the slots will be indicated by grey color to show that you are unavailable at that time. This also factors
+in the interviews that you have already scheduled.
+
+==== Differentiating the importance of timetable slots through colours `[Coming in v2.0]`
+As you can see from the timetable above, there are 2 different colours of time slots. This is implemented so you
+are able to differentiate which interviews are important by using the colour code as shown in the timetable.
+By default, the slots will be green in colour. However, you are able to change the colours based on importance using
+the following command +
+Format: `change DATE TIME IMPORTANCE`
 
 === Get interview schedule `get` `[Coming in v2.0]`
 Find an interviewer/interviewee and display his/her interview schedule. +
@@ -88,6 +168,14 @@ Example:
 
  get "John Doe"
 
+=== Changing availabilities `edit` `[Coming in v2.0]`
+==== Changing availabilities of existing interviewer (interview slot)
+Change the specified interviewer from the database +
+Format: `edit interviewer NAME`
+
+==== Changing availabilities of existing interviewee
+Change the specified interviewee from the database. +
+Format: `edit interviewee NAME`
 
 === Delete interviewer/interviewee `delete`
 ==== Delete existing interviewer (interview slot)
@@ -116,6 +204,32 @@ the timetable of all available interview time slots. +
 Format: `generate schedule` +
 
 **Note:** This command requires the timetable of all available time slots to be generated first!
+
+=== Exporting of interview schedule `export`
+Exports the allocated interview schedule timetable to a comma separated values (CSV) file. +
+Format: `export` +
+
+Note: This command requires the interview schedule to be generated first!
+
+=== Sending of email `email`
+==== Sending of interview time slot to interviewees
+Sends an email containing the interviewee’s allocated interview time slot to every interviewee, including other details such as the interviewer, time, date and location.
+
+Format: `email timeslots`
+
+**Note:** The email will only be sent if the interviewee’s email is present in the database and that the interview schedule has already been generated.
+
+==== Sending of interview results to interviewees `[Coming in v2.0]`
+Sends an email containing the interviewee’s result/interview outcome and other details that you might want to include.
+
+Format: `email results`
+
+**Note:** This email will only be sent if the interviewee’s email is present in the database and that the interview schedule has already been generated.
+
+==== Checking of email sending queue status `[Coming in v2.0]`
+Checks the status of the mail sending queue.
+
+Format: `email status`
 
 === Recording of additional statuses: `record` `[Coming in v2.0]`
 ==== Recording of interviewee’s attendance
@@ -150,11 +264,22 @@ Format: `record rank`
 |`add interviewer name:"NAME" slot:SLOT...` +
  `add interviewee name:"NAME" slot:SLOT...`
 
-|Display interview schedule
-|`display` +
+|Display list of interviewers/interviewees
+|`display interviewers` +
+ `display interviewees`
+
+|Display weekly schedule
+|`display date DATE`
+
+Display available slots
+`display available date Date`
 
 |Get interview schedule for interviewer/interviewee
 |`get NAME` +
+
+|Edit availability of interveiwer/interviewee
+|`edit interviewer NAME` +
+ `edit interviewee NAME`
 
 |Delete interviewer/interviewee
 |`delete interviewer NAME` +
