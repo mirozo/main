@@ -6,7 +6,9 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
-
+/**
+ * Parser class for ImportCommand.
+ */
 public class ImportCommandParser implements Parser<ImportCommand> {
 
     /**

@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import java.io.IOException;
+
 import seedu.address.model.Model;
 import seedu.address.model.util.ExcelReader;
 
@@ -12,8 +13,8 @@ public class ImportCommand extends Command {
 
     public static final String COMMAND_WORD = "import";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Import excel file containing " +
-            "interviewee's information.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Import excel file containing "
+            + "interviewee's information.\n"
             + "Example: " + COMMAND_WORD + "<excelFilePath>";
 
     public static final String SHOWING_MESSAGE = "Data imported successfully.";
