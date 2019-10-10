@@ -1,6 +1,4 @@
 package seedu.address.model.util;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -11,12 +9,21 @@ import java.io.IOException;
 import java.util.Iterator;
 
 public class ExcelReader {
-    public String filePath;
+    private String filePath;
 
+    /**
+     * Constructor for ExcelReader object to read from excel.
+     * @param filePath
+     */
     public ExcelReader(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Reads from excel and returns the corresponding string.
+     * @return String
+     * @throws IOException if input file is not of .xlsx extension
+     */
     public String translate() throws IOException {
         FileInputStream fileInputStream = new FileInputStream(new File(filePath));
         XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
@@ -28,8 +35,7 @@ public class ExcelReader {
         DataFormatter dataFormatter = new DataFormatter();
 
         Iterator<Row> rowIterator = sheet.iterator();
-        while (rowIterator.hasNext())
-        {
+        while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
             //For each row, iterate through all the columns
             Iterator<Cell> cellIterator = row.cellIterator();
