@@ -26,16 +26,17 @@ public class ImportCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) {
+        String result = SHOWING_MESSAGE;
         try {
             ExcelReader excelReader = new ExcelReader(filePath);
-            String result = excelReader.translate();
-            System.out.println(result);
-        } catch (InvalidFormatException | IOException e) {
+            result = excelReader.translate();
+
+        } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("File is in the wrong format");
+            result = "File is in wrong format";
         }
 
+        return new CommandResult(result, false, false);
 
-        return new CommandResult(SHOWING_MESSAGE, false, false);
     }
 }
