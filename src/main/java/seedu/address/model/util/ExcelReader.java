@@ -1,18 +1,16 @@
 package seedu.address.model.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Iterator;
+import seedu.address.model.ScheduleStub;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 
 /**
- * Helper class to read .xlsx files.
+ * Helper class to read .csv files (Comma separated values).
  */
 public class ExcelReader {
     private String filePath;
@@ -30,31 +28,36 @@ public class ExcelReader {
      * @return String
      * @throws IOException if input file is not of .xlsx extension
      */
-    public String translate() throws IOException {
-        FileInputStream fileInputStream = new FileInputStream(new File(filePath));
-        XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
-        StringBuilder result = new StringBuilder();
-        // Getting the Sheet at index zero
-        XSSFSheet sheet = workbook.getSheetAt(0);
-
-        // Create a DataFormatter to format and get each cell's value as String
-        DataFormatter dataFormatter = new DataFormatter();
-
-        Iterator<Row> rowIterator = sheet.iterator();
-        while (rowIterator.hasNext()) {
-            Row row = rowIterator.next();
-            //For each row, iterate through all the columns
-            Iterator<Cell> cellIterator = row.cellIterator();
-
-            while (cellIterator.hasNext()) {
-                Cell cell = cellIterator.next();
-                //Check the cell type and format accordingly
-                result.append(cell.getStringCellValue());
+    public ArrayList<ScheduleStub> read() throws IOException {
+        BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+        String firstLine = csvReader.readLine();
+        int numberOfDays = getValue(firstLine.split(",")[0]);
+        int numberOfColumns = getValue(firstLine.split(",")[1]);
+        ArrayList<ScheduleStub> schedules = new ArrayList<>();
+        for (int i = 0; i < numberOfDays; i++) {
+            ArrayList<ArrayList<String>> schedule = new ArrayList<>();
+            String row;
+            while ((row = csvReader.readLine()) != null) {
+                String[] data = row.split(",", -1);
+                if (data[0].equals("")) {
+                    
+                } else if (numberOfColumns != 0) {
+                    ArrayList<String> dataRow = new ArrayList<>();
+                    for (int j = 0; j < numberOfColumns; j++) {
+                        String element = data[j];
+                        dataRow.add(element);
+                    }
+                    schedule.add(dataRow);
+                }
             }
-            System.out.println("");
+            schedules.add(new ScheduleStub(schedule));
         }
-        fileInputStream.close();
-        workbook.close();
-        return result.toString();
+        csvReader.close();
+        return schedules;
+    }
+
+    private static int getValue(String element) {
+        String[] strings = element.split("= ");
+        return Integer.parseInt(strings[1]);
     }
 }

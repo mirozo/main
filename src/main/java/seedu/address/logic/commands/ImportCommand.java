@@ -1,8 +1,11 @@
 package seedu.address.logic.commands;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import seedu.address.model.Model;
+import seedu.address.model.ScheduleStub;
 import seedu.address.model.util.ExcelReader;
 
 
@@ -27,17 +30,17 @@ public class ImportCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) {
-        String result = SHOWING_MESSAGE;
+        ArrayList<ScheduleStub> result;
         try {
             ExcelReader excelReader = new ExcelReader(filePath);
-            result = excelReader.translate();
-
+            result = excelReader.read();
+            return new CommandResult(result.get(0).toString(), false, false);
         } catch (IOException e) {
             e.printStackTrace();
-            result = "File is in wrong format";
+            return new CommandResult("Failed", false, false);
         }
 
-        return new CommandResult(result, false, false);
+
 
     }
 }
