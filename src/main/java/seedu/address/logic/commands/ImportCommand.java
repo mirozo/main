@@ -1,11 +1,10 @@
 package seedu.address.logic.commands;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import seedu.address.model.Model;
-import seedu.address.model.ScheduleStub;
+import seedu.address.model.Schedule;
 import seedu.address.model.util.ExcelReader;
 
 
@@ -33,7 +32,7 @@ public class ImportCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) {
-        ArrayList<ScheduleStub> result;
+        ArrayList<Schedule> result;
         try {
             if (this.type.equals("interviewer")) {
                 ExcelReader excelReader = new ExcelReader(filePath);

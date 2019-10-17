@@ -1,11 +1,11 @@
 package seedu.address.model.util;
 
-import seedu.address.model.ScheduleStub;
+import seedu.address.model.Schedule;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -29,15 +29,15 @@ public class ExcelReader {
      * @return String
      * @throws IOException if input file is not of .xlsx extension
      */
-    public ArrayList<ScheduleStub> read() throws IOException {
+    public ArrayList<Schedule> read() throws IOException {
         BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
         String firstLine = csvReader.readLine();
         int numberOfDays = getValue(firstLine.split(",")[0]);
         int numberOfColumns = getValue(firstLine.split(",")[1]) + 1;
-        ArrayList<ScheduleStub> schedules = new ArrayList<>();
+        ArrayList<Schedule> schedules = new ArrayList<>();
         csvReader.readLine(); //removes next line
         for (int i = 0; i < numberOfDays; i++) {
-            LinkedList<LinkedList<String>> schedule = new LinkedList<>();
+            LinkedList<LinkedList<String>> table = new LinkedList<>();
             String row;
             boolean firstEncounter = true;
             while ((row = csvReader.readLine()) != null) {
@@ -54,10 +54,11 @@ public class ExcelReader {
                         String element = data[j];
                         dataRow.add(element);
                     }
-                    schedule.add(dataRow);
+                    table.add(dataRow);
                 }
             }
-            schedules.add(new ScheduleStub(schedule));
+            String date = table.getFirst().getFirst();
+            schedules.add(new Schedule(date, table));
         }
         csvReader.close();
         return schedules;
