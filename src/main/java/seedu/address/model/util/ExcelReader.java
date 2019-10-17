@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 /**
@@ -32,17 +33,23 @@ public class ExcelReader {
         BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
         String firstLine = csvReader.readLine();
         int numberOfDays = getValue(firstLine.split(",")[0]);
-        int numberOfColumns = getValue(firstLine.split(",")[1]);
+        int numberOfColumns = getValue(firstLine.split(",")[1]) + 1;
         ArrayList<ScheduleStub> schedules = new ArrayList<>();
+        csvReader.readLine(); //removes next line
         for (int i = 0; i < numberOfDays; i++) {
-            ArrayList<ArrayList<String>> schedule = new ArrayList<>();
+            LinkedList<LinkedList<String>> schedule = new LinkedList<>();
             String row;
+            boolean firstEncounter = true;
             while ((row = csvReader.readLine()) != null) {
                 String[] data = row.split(",", -1);
                 if (data[0].equals("")) {
-                    
+                    if (firstEncounter) {
+                        firstEncounter = false;
+                    } else {
+                        break;
+                    }
                 } else if (numberOfColumns != 0) {
-                    ArrayList<String> dataRow = new ArrayList<>();
+                    LinkedList<String> dataRow = new LinkedList<>();
                     for (int j = 0; j < numberOfColumns; j++) {
                         String element = data[j];
                         dataRow.add(element);

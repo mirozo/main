@@ -1,11 +1,11 @@
 package seedu.address.model;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class ScheduleStub {
-    private ArrayList<ArrayList<String>> table;
+    private LinkedList<LinkedList<String>> table;
 
-    public ScheduleStub(ArrayList<ArrayList<String>> table) {
+    public ScheduleStub(LinkedList<LinkedList<String>> table) {
         this.table = table;
     }
 
