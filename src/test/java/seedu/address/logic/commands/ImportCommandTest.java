@@ -9,13 +9,13 @@ import seedu.address.model.ModelManager;
 
 
 public class ImportCommandTest {
-    private final String SUCCESS_FILE_PATH = "src/test/data/ImportsTest/test.csv";
-    private final String INVALID_FILE_PATH = "invalid/file/path";
-    private final String INTERVIEWER = "interviewer";
+    private static final String SUCCESS_FILE_PATH = "src/test/data/ImportsTest/test.csv";
+    private static final String INVALID_FILE_PATH = "invalid/file/path";
+    private static final String INTERVIEWER = "interviewer";
     private Model model = new ModelManager();
 
     @Test
-    public void InterviewerImportCommandSuccess() {
+    public void interviewerImportCommandSuccess() {
         ImportCommand importCommand = new ImportCommand(INTERVIEWER + " " + SUCCESS_FILE_PATH);
         CommandResult expectedCommandResult = new CommandResult(ImportCommand.SUCCESS_MESSAGE, false, false);
         Model expectedModel = model;
@@ -23,7 +23,7 @@ public class ImportCommandTest {
     }
 
     @Test
-    public void InterviewerImportCommandFailureToFindFile() {
+    public void interviewerImportCommandFailure() {
         ImportCommand importCommand = new ImportCommand(INTERVIEWER + " " + INVALID_FILE_PATH);
         CommandResult expectedCommandResult = new CommandResult(ImportCommand.FILE_DOES_NOT_EXIST, false, false);
         assertEquals(importCommand.execute(model), expectedCommandResult);
