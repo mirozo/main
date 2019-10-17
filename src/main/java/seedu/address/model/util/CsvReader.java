@@ -11,14 +11,14 @@ import seedu.address.model.Schedule;
 /**
  * Helper class to read .csv files (Comma separated values).
  */
-public class ExcelReader {
+public class CsvReader {
     private String filePath;
 
     /**
-     * Constructor for ExcelReader object to read from excel.
+     * Constructor for CsvReader object to read from excel.
      * @param filePath
      */
-    public ExcelReader(String filePath) {
+    public CsvReader(String filePath) {
         this.filePath = filePath;
     }
 

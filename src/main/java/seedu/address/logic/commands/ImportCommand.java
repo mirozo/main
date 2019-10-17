@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import seedu.address.model.Model;
 import seedu.address.model.Schedule;
-import seedu.address.model.util.ExcelReader;
+import seedu.address.model.util.CsvReader;
 
 
 /**
@@ -41,9 +41,10 @@ public class ImportCommand extends Command {
 
         try {
             if (this.type.equals("interviewer")) {
-                ArrayList<Schedule> result;
-                ExcelReader excelReader = new ExcelReader(filePath);
-                result = excelReader.read();
+                ArrayList<Schedule> schedules;
+                CsvReader csvReader = new CsvReader(filePath);
+                schedules = csvReader.read();
+                model.setSchedulesList(schedules);
                 return new CommandResult(SUCCESS_MESSAGE, false, false);
             } else if (this.type.equals("interviewee")) {
                 return new CommandResult(MESSAGE_NOT_IMPLEMENTED_YET, false, false);
