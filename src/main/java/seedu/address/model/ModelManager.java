@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -11,34 +13,42 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.person.Interviewer;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Slot;
 
 /**
- * Represents the in-memory model of the address book data.
+ * Represents the in-memory model of the schedule table data.
  */
 public class ModelManager implements Model {
+    public static final Schedule EMPTY_SCHEDULE = new Schedule("", new LinkedList<>());
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final List<Schedule> schedulesList;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs,
+                        List<Schedule> schedulesList) {
         super();
-        requireAllNonNull(addressBook, userPrefs);
+        requireAllNonNull(addressBook, userPrefs, schedulesList);
 
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with list of schedules: " + schedulesList + " and user prefs " + userPrefs);
 
+        // TODO: Delete these later
         this.addressBook = new AddressBook(addressBook);
-        this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+
+        this.schedulesList = cloneSchedulesList(schedulesList);
+        this.userPrefs = new UserPrefs(userPrefs);
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new AddressBook(), new UserPrefs(), new LinkedList<>());
     }
 
     //=========== UserPrefs ==================================================================================
@@ -74,6 +84,87 @@ public class ModelManager implements Model {
     public void setAddressBookFilePath(Path addressBookFilePath) {
         requireNonNull(addressBookFilePath);
         userPrefs.setAddressBookFilePath(addressBookFilePath);
+    }
+
+    //=========== Schedule ================================================================================
+    /**
+     * Replaces schedule data with the data in {@code schedule}.
+     */
+    @Override
+    public void setSchedulesList(LinkedList<Schedule> list) {
+        schedulesList.clear();
+        schedulesList.addAll(cloneSchedulesList(list));
+        logger.fine("Schedules list is reset");
+    }
+
+    /** Returns the schedulesList **/
+    @Override
+    public List<Schedule> getSchedulesList() {
+        return schedulesList;
+    }
+
+    /**
+     * Returns a list of observable list of the schedules.
+     */
+    @Override
+    public List<ObservableList<ObservableList<String>>> getObservableLists() {
+        List<ObservableList<ObservableList<String>>> observableLists = new LinkedList<>();
+        for (Schedule schedule : schedulesList) {
+            observableLists.add(schedule.getObservableList());
+        }
+        return observableLists;
+    }
+
+    /**
+     * Returns a list of interview slots assigned to the interviewee with the {@code intervieweeName}.
+     */
+    @Override
+    public List<Slot> getInterviewSlots(String intervieweeName) {
+        List<Slot> slots = new LinkedList<>();
+        for (Schedule schedule : schedulesList) {
+            slots.addAll(schedule.getInterviewSlots(intervieweeName));
+        }
+        return slots;
+    }
+
+    /**
+     * Returns the date of the first schedule in which the interviewer exists in, otherwise return empty string.
+     */
+    @Override
+    public String hasInterviewer(Interviewer interviewer) {
+        String date = "";
+        for (Schedule schedule : schedulesList) {
+            if (schedule.hasInterviewer(interviewer)) {
+                date = schedule.getDate();
+                break;
+            }
+        }
+        return date;
+    }
+    /**
+     * Adds the given interviewer to schedule(s) in which the interviewer's availability fall.
+     * If the interviewer's availability does not fall within any of the schedule, then the interviewer will not
+     * be added into any of the schedule.
+     */
+    @Override
+    public void addInterviewer(Interviewer interviewer) {
+        for (Schedule schedule : schedulesList) {
+            schedule.addInterviewer(interviewer);
+        }
+    }
+
+    /**
+     * Returns the deep copy of the schedules list given.
+     *
+     * @param list the list of schedules to be copied.
+     * @return the deep copy of the schedules list given.
+     */
+    private static List<Schedule> cloneSchedulesList(List<Schedule> list) {
+        List<Schedule> listClone = new LinkedList<>();
+        for (Schedule schedule : list) {
+            listClone.add(Schedule.cloneSchedule(schedule));
+        }
+        return listClone;
     }
 
     //=========== AddressBook ================================================================================
@@ -144,8 +235,7 @@ public class ModelManager implements Model {
         // state check
         ModelManager other = (ModelManager) obj;
         return addressBook.equals(other.addressBook)
-                && userPrefs.equals(other.userPrefs)
-                && filteredPersons.equals(other.filteredPersons);
+            && userPrefs.equals(other.userPrefs)
+            && filteredPersons.equals(other.filteredPersons);
     }
-
 }
