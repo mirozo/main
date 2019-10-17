@@ -8,9 +8,6 @@ import java.util.LinkedList;
 
 import seedu.address.model.Schedule;
 
-
-
-
 /**
  * Helper class to read .csv files (Comma separated values).
  */

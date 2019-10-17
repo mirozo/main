@@ -18,9 +18,9 @@ public class ImportCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Import .csv file containing "
             + "interviewer or interviewee's information.\n"
-            + "Example: " + COMMAND_WORD + "interviewer/interviewee" + "<csvFilePath>";
+            + "Example: " + COMMAND_WORD + " interviewer " + "<csvFilePath>";
 
-    public static final String SHOWING_MESSAGE = "Data imported successfully.";
+    public static final String SUCCESS_MESSAGE = "Data imported successfully.";
     public static final String MESSAGE_NOT_IMPLEMENTED_YET = "Command not implemented yet";
     public static final String INCORRECT_FORMAT = "Data is in incorrect format. Please refer to the "
             + "User Guide for the supported format";
@@ -44,7 +44,7 @@ public class ImportCommand extends Command {
                 ArrayList<Schedule> result;
                 ExcelReader excelReader = new ExcelReader(filePath);
                 result = excelReader.read();
-                return new CommandResult(result.get(0).toString(), false, false);
+                return new CommandResult(SUCCESS_MESSAGE, false, false);
             } else if (this.type.equals("interviewee")) {
                 return new CommandResult(MESSAGE_NOT_IMPLEMENTED_YET, false, false);
             } else {
