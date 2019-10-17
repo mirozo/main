@@ -3,6 +3,7 @@ package seedu.address.model.util;
 import seedu.address.model.Schedule;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -27,9 +28,10 @@ public class ExcelReader {
     /**
      * Reads from excel and returns the corresponding string.
      * @return String
-     * @throws IOException if input file is not of .xlsx extension
+     * @throws IOException if input file is not found.
      */
     public ArrayList<Schedule> read() throws IOException {
+
         BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
         String firstLine = csvReader.readLine();
         int numberOfDays = getValue(firstLine.split(",")[0]);
@@ -67,5 +69,10 @@ public class ExcelReader {
     private static int getValue(String element) {
         String[] strings = element.split("= ");
         return Integer.parseInt(strings[1]);
+    }
+
+    private boolean fileExists() {
+        File file = new File(this.filePath);
+        return file.exists();
     }
 }

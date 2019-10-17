@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -9,17 +10,22 @@ import seedu.address.model.util.ExcelReader;
 
 
 /**
- * Import excel file containing interviewee's information.
+ * Import csv file containing interviewer's/ interviewers's information.
  */
 public class ImportCommand extends Command {
 
     public static final String COMMAND_WORD = "import";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Import excel file containing "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Import .csv file containing "
             + "interviewer or interviewee's information.\n"
             + "Example: " + COMMAND_WORD + "interviewer/interviewee" + "<csvFilePath>";
 
     public static final String SHOWING_MESSAGE = "Data imported successfully.";
+    public static final String MESSAGE_NOT_IMPLEMENTED_YET = "Command not implemented yet";
+    public static final String INCORRECT_FORMAT = "Data is in incorrect format. Please refer to the "
+            + "User Guide for the supported format";
+    public static final String FILE_DOES_NOT_EXIST = "Target file does not exist. Please ensure that "
+            + "the file path is correct.";
 
     private String filePath;
     private String type;
@@ -32,23 +38,25 @@ public class ImportCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) {
-        ArrayList<Schedule> result;
+
         try {
             if (this.type.equals("interviewer")) {
+                ArrayList<Schedule> result;
                 ExcelReader excelReader = new ExcelReader(filePath);
                 result = excelReader.read();
                 return new CommandResult(result.get(0).toString(), false, false);
             } else if (this.type.equals("interviewee")) {
-                return new CommandResult("Not implemented yet", false, false);
+                return new CommandResult(MESSAGE_NOT_IMPLEMENTED_YET, false, false);
             } else {
                 return new CommandResult(MESSAGE_USAGE, false, false);
             }
+        } catch (FileNotFoundException e) {
+            return new CommandResult(FILE_DOES_NOT_EXIST, false, false);
         } catch (IOException e) {
             e.printStackTrace();
             return new CommandResult("Failed", false, false);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return new CommandResult(INCORRECT_FORMAT, false, false);
         }
-
-
-
     }
 }
