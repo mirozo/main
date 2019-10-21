@@ -23,11 +23,4 @@ public class ImportCommandTest {
         assertCommandSuccess(importCommand, model, expectedCommandResult, expectedModel);
     }
 
-    @Test
-    public void interviewerImportCommandFailure() throws CommandException {
-        ImportCommand importCommand = new ImportCommand(INTERVIEWER + " " + INVALID_FILE_PATH);
-        CommandResult expectedCommandResult = new CommandResult(ImportCommand.FILE_DOES_NOT_EXIST, false, false);
-        assertEquals(importCommand.execute(model), expectedCommandResult);
-    }
-
 }
