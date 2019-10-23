@@ -235,6 +235,12 @@ image::CommitActivityDiagram.png[]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two different things.
 // end::undoredo[]
 
+=== Import from .csv file feature
+==== Implementation
+
+This feature
+
+
 // tag::dataencryption[]
 === [Proposed] Data Encryption
 
@@ -317,9 +323,9 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |secretary of NUS CCA |be informed if interview allocation of a certain interviewee has failed |manually fix conflicts or get the interviewee to give another available timeslot
 
-|`* * *` |secretary of NUS CCA |automate the process of scheduling interviews |lighten my workload
+|`* * *` |very busy secretary of NUS CCA |automate the process of scheduling interviews |lighten my workload
 
-|`* * *` |secretary of NUS CCA |mark an interviewee as 'completed interview' |track and manage uncompleted interviews
+|`* * *` |forgetful secretary of NUS CCA |mark an interviewee as 'completed interview' |track and manage uncompleted interviews
 
 |`* * *` |secretary of NUS CCA |add multiple tags to an interviewee in a single command |I can be efficient
 
@@ -335,7 +341,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |secretary of NUS CCA |schedule group interviews |I can use less manpower on days that I do not have enough interviewers
 
-|`* *` |secretary of NUS CCA |share the current scheduled timeslots with another secretary |give them access to help with the scheduling of interviews as well
+|`* *` |busy secretary of NUS CCA |share the current scheduled timeslots with another secretary |give them access to help with the scheduling of interviews as well
 
 |`* *` |secretary of NUS CCA |email the interview results to interviewees |inform them of the outcomes of the interview
 
