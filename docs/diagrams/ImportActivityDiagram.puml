@@ -1,4 +1,5 @@
 @startuml
+scale 3/4
 start
 :User executes import command;
 

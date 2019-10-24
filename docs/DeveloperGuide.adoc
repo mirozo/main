@@ -239,6 +239,7 @@ image::CommitActivityDiagram.png[]
 ==== Implementation
 
 The import feature uses `CsvReader` in the Model to read the given .csv file and stores the data into the model.
+
 * `import interviewer <csv file>` stores the read data as a list of `Schedule` objects in the model.
 * `import interviewee <csv file>` stores the read data as a list of `Interviewee` objects in the model.
 * `CsvReader` makes use of `BufferedReader` to read data from the given file.
@@ -247,6 +248,7 @@ image::ImportSequenceDiagram.png[]
 Given above is an example of a sequence diagram for importing interviewer's schedules. It applies to both importing interviewee's and interviewer's data.
 
 As seen in the above sequence diagram, the execution of the import feature consists of these steps:
+
 * Step 1: `LogicManager` will start executing the command by parsing it over to `AddressBookParser`.
 * Step 2: `AddressBookParser` will then look and initialise an `ImportCommand` instance and return it to `LogicManager`.
 * Step 3: `LogicManager` will then call execute() on the returned `ImportCommand`  object.
@@ -262,6 +264,7 @@ image::ImportActivityDiagram.png[]
 ==== Implementation [Proposed]
 The Export command gets the scheduled time slots from the Model and writes them in the specified .csv file.
 CsvWriter facilitates the writing to the specified file.
+
 * CsvWriter makes use of `BufferedWriter` to write data into the specified file.
 
 Below shows the sequence diagram of an example export command.
