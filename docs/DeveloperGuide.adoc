@@ -235,10 +235,45 @@ image::CommitActivityDiagram.png[]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two different things.
 // end::undoredo[]
 
-=== Import from .csv file feature
+=== Import
 ==== Implementation
 
-This feature
+The import feature uses `CsvReader` in the Model to read the given .csv file and stores the data into the model.
+* `import interviewer <csv file>` stores the read data as a list of `Schedule` objects in the model.
+* `import interviewee <csv file>` stores the read data as a list of `Interviewee` objects in the model.
+* `CsvReader` makes use of `BufferedReader` to read data from the given file.
+
+image::ImportSequenceDiagram.png[]
+Given above is an example of a sequence diagram for importing interviewer's schedules. It applies to both importing interviewee's and interviewer's data.
+
+As seen in the above sequence diagram, the execution of the import feature consists of these steps:
+* Step 1: `LogicManager` will start executing the command by parsing it over to `AddressBookParser`.
+* Step 2: `AddressBookParser` will then look and initialise an `ImportCommand` instance and return it to `LogicManager`.
+* Step 3: `LogicManager` will then call execute() on the returned `ImportCommand`  object.
+* Step 4: During the execute() method, the method will initialise a `CsvReader` object to `read()` data from the the given .csv file.
+* Step 5: The read data will then be stored as either `scheduleList` or `intervieweeList` in the model.
+
+The following activity diagram summarizes what happens when a user executes a new command:
+
+image::ImportActivityDiagram.png[]
+
+
+=== [Coming soon in v1.3] Export
+==== Implementation [Proposed]
+The Export command gets the scheduled time slots from the Model and writes them in the specified .csv file.
+CsvWriter facilitates the writing to the specified file.
+* CsvWriter makes use of `BufferedWriter` to write data into the specified file.
+
+Below shows the sequence diagram of an example export command.
+
+image::ExportSequenceDiagram.png[]
+
+The implementation is very similar to the Import feature. The only differences are in the Model where CsvWriter gets
+the scheduled time slots from the Model and proceeds to write it into the specified file using a `BufferedWriter`.
+
+The Activity Diagram below summarises the execution of the export command.
+
+image::ExportActivityDiagram.png[]
 
 
 // tag::dataencryption[]
