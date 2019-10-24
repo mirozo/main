@@ -9,6 +9,9 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -20,7 +23,11 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.Schedule;
+import seedu.address.model.person.Interviewee;
+import seedu.address.model.person.Interviewer;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Slot;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -99,6 +106,61 @@ public class AddCommandTest {
         }
 
         @Override
+        public void setSchedulesList(List<Schedule> schedulesList) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public LinkedList<Schedule> getSchedulesList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setIntervieweesList(List<Interviewee> intervieweesList) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public List<Interviewee> getIntervieweesList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public List<ObservableList<ObservableList<String>>> getObservableLists() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public List<List<String>> getTitlesLists() {
+            // TODO: Implementation
+            return null;
+        }
+
+        @Override
+        public void emailInterviewee(Interviewee interviewee) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Interviewee getInterviewee(String intervieweeName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public List<Slot> getInterviewSlots(String intervieweeName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public String hasInterviewer(Interviewer interviewer) {
+            throw new AssertionError("This method should not be called.");
+        }
+        @Override
+        public void addInterviewer(Interviewer interviewer) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public Path getAddressBookFilePath() {
             throw new AssertionError("This method should not be called.");
         }
@@ -130,6 +192,11 @@ public class AddCommandTest {
 
         @Override
         public void deletePerson(Person target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Person getPerson(String name) throws NoSuchElementException {
             throw new AssertionError("This method should not be called.");
         }
 
