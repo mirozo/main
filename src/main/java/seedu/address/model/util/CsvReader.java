@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,9 +12,14 @@ import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
 import seedu.address.model.Model;
 import seedu.address.model.person.DefaultValues;
 import seedu.address.model.person.Department;
+import seedu.address.model.person.Email;
+import seedu.address.model.person.EmailType;
+import seedu.address.model.person.Emails;
+import seedu.address.model.person.Faculty;
 import seedu.address.model.person.Interviewee;
 import seedu.address.model.person.Interviewer;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Phone;
 import seedu.address.model.person.Slot;
 
 /**
@@ -82,6 +88,48 @@ public class CsvReader {
         }
         csvReader.close();
         return interviewers;
+    }
+
+    public ArrayList<Interviewee> readInterviewees() throws IOException{
+        BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+        ArrayList<Interviewee> interviewees = new ArrayList<>();
+        csvReader.readLine(); //discard first line
+        String row;
+        while ((row = csvReader.readLine()) != null) {
+            String[] rowData = row.split(",");
+            Name name = new Name(rowData[0]);
+            HashMap<EmailType, List<Email>> emails = new HashMap<>();
+            ArrayList<Email> nusEmails = new ArrayList<>();
+            ArrayList<Email> personalEmails = new ArrayList<>();
+            nusEmails.add(new Email(rowData[1]));
+            emails.put(EmailType.NUS, nusEmails);
+            personalEmails.add(new Email(rowData[2]));
+            emails.put(EmailType.PERSONAL, personalEmails);
+            Emails allEmails = new Emails(emails);
+            Phone phone = new Phone(rowData[3]);
+            Faculty faculty = new Faculty(rowData[4]);
+            Integer yearOfStudy = Integer.valueOf(rowData[5]);
+            ArrayList<Department> choiceOfDepartments = new ArrayList<>();
+            choiceOfDepartments.add(new Department(rowData[6]));
+            List<Slot> availableTimeSlots = new ArrayList<>();
+            for (int i = 7; i < rowData.length; i++) {
+                String trimmedData = rowData[i].trim().replaceAll("\"", "");
+                if (!trimmedData.equals("")) {
+                    Slot slot = new Slot(trimmedData);
+                    availableTimeSlots.add(slot);
+                }
+            }
+            Interviewee.IntervieweeBuilder builder = new Interviewee.IntervieweeBuilder(name, phone, DefaultValues.DEFAULT_TAGS);
+            builder.availableTimeslots(availableTimeSlots);
+            builder.departmentChoices(choiceOfDepartments);
+            builder.emails(allEmails);
+            builder.yearOfStudy(yearOfStudy);
+            builder.faculty(faculty);
+
+            interviewees.add(builder.build());
+        }
+        return interviewees;
+
     }
 
     private static int getValue(String element) {

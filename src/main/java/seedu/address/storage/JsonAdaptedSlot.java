@@ -1,6 +1,7 @@
 package seedu.address.storage;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -19,7 +20,8 @@ public class JsonAdaptedSlot {
      * Constructs a {@code JsonAdaptedSlot} with the given {@code slot}s.
      */
     @JsonCreator
-    public JsonAdaptedSlot(String date, String start, String end) {
+    public JsonAdaptedSlot(@JsonProperty("date") String date, @JsonProperty("start") String start,
+                           @JsonProperty("end") String end) {
         this.date = date;
         this.start = start;
         this.end = end;

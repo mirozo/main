@@ -54,7 +54,10 @@ public class ImportCommand extends Command {
                 model.setInterviewerList(interviewers);
                 return new CommandResult(SUCCESS_MESSAGE, false, false);
             } else if (this.type.equals("interviewee")) {
-                return new CommandResult(MESSAGE_NOT_IMPLEMENTED_YET, false, false);
+                CsvReader csvReader = new CsvReader(filePath);
+                ArrayList<Interviewee> interviewees = csvReader.readInterviewees();
+                model.setIntervieweeList(interviewees);
+                return new CommandResult(SUCCESS_MESSAGE, false, false);
             } else {
                 throw new CommandException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
             }
