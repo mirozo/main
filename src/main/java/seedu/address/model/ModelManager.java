@@ -169,8 +169,10 @@ public class ModelManager implements Model {
     }
 
     //=========== Schedule ================================================================================
+
     /**
      * Replaces schedule data with the data in {@code schedule}.
+     *
      * @param list
      */
     @Override
@@ -180,7 +182,9 @@ public class ModelManager implements Model {
         logger.fine("Schedules list is reset");
     }
 
-    /** Returns the schedulesList **/
+    /**
+     * Returns the schedulesList
+     **/
     @Override
     public List<Schedule> getSchedulesList() {
         return schedulesList;
@@ -198,7 +202,9 @@ public class ModelManager implements Model {
         return observableLists;
     }
 
-    /** Returns a list of lists of column titles, each list of column titles belong to a Schedule table*/
+    /**
+     * Returns a list of lists of column titles, each list of column titles belong to a Schedule table
+     */
     @Override
     public List<List<String>> getTitlesLists() {
         List<List<String>> titlesLists = new LinkedList<>();
@@ -234,6 +240,7 @@ public class ModelManager implements Model {
         }
         return date;
     }
+
     /**
      * Adds the given interviewer to schedule(s) in which the interviewer's availability fall.
      * If the interviewer's availability does not fall within any of the schedule, then the interviewer will not

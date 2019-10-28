@@ -92,9 +92,9 @@ public class Interviewer extends Person {
         return email;
     }
 
-    public void setAvailabilities(List<Slot> availabilities) {
+    public void setAvailabilities(List<Slot> slots) {
         this.availabilities.clear();
-        this.availabilities.addAll(availabilities);
+        this.availabilities.addAll(slots);
     }
 
     /**

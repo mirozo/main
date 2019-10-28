@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.Schedule;
+import seedu.address.model.person.Interviewee;
+import seedu.address.model.person.Interviewer;
 import seedu.address.model.util.CsvReader;
 
 
@@ -47,10 +49,9 @@ public class ImportCommand extends Command {
 
         try {
             if (this.type.equals("interviewer")) {
-                ArrayList<Schedule> schedules;
                 CsvReader csvReader = new CsvReader(filePath);
-                schedules = csvReader.read();
-                model.setSchedulesList(schedules);
+                ArrayList<Interviewer> interviewers = csvReader.readInterviewers();
+                model.setInterviewerList(interviewers);
                 return new CommandResult(SUCCESS_MESSAGE, false, false);
             } else if (this.type.equals("interviewee")) {
                 return new CommandResult(MESSAGE_NOT_IMPLEMENTED_YET, false, false);
