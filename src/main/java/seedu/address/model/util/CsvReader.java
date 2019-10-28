@@ -115,7 +115,7 @@ public class CsvReader {
             for (int i = 7; i < rowData.length; i++) {
                 String trimmedData = rowData[i].trim().replaceAll("\"", "");
                 if (!trimmedData.equals("")) {
-                    Slot slot = new Slot(trimmedData);
+                    Slot slot = Slot.fromString(trimmedData);
                     availableTimeSlots.add(slot);
                 }
             }
