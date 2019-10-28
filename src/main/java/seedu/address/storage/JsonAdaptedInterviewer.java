@@ -10,11 +10,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.Department;
 import seedu.address.model.person.Interviewer;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Slot;
 import seedu.address.model.tag.Tag;
@@ -34,9 +32,10 @@ public class JsonAdaptedInterviewer extends JsonAdaptedPerson {
     public JsonAdaptedInterviewer(
             @JsonProperty("availabilities") List<JsonAdaptedSlot> availabilities,
             @JsonProperty("department") String department,
-            @JsonProperty("name") String name, @JsonProperty("phone") String phone,
-            @JsonProperty("address") String address, @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
-        super(name, phone, address, tagged);
+            @JsonProperty("name") String name,
+            @JsonProperty("phone") String phone,
+            @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
+        super(name, phone, tagged);
         this.department = department;
         if (availabilities != null) {
             this.availabilities.addAll(availabilities);
@@ -47,7 +46,7 @@ public class JsonAdaptedInterviewer extends JsonAdaptedPerson {
      * Converts a given {@code Interviewer} into this class for Jackson use.
      */
     public JsonAdaptedInterviewer(Interviewer source) {
-        super(source.getName().fullName, source.getPhone().value, source.getAddress().value,
+        super(source.getName().fullName, source.getPhone().value,
                 source.getTags().stream().map(JsonAdaptedTag::new).collect(Collectors.toList()));
         department = source.getDepartment().department;
         availabilities.addAll(source.getAvailabilities()
@@ -61,10 +60,9 @@ public class JsonAdaptedInterviewer extends JsonAdaptedPerson {
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted interviewer.
      */
-    public Person toModelType() throws IllegalValueException {
+    public Interviewer toModelType() throws IllegalValueException {
         final String name = getName();
         final String phone = getPhone();
-        final String address = getAddress();
         final List<Tag> personTags = new ArrayList<>();
         for (JsonAdaptedTag tag : getTagged()) {
             personTags.add(tag.toModelType());
@@ -90,15 +88,6 @@ public class JsonAdaptedInterviewer extends JsonAdaptedPerson {
             throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
         }
         final Phone modelPhone = new Phone(phone);
-        // check address
-        if (address == null) {
-            throw new IllegalValueException(
-                    String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
-        }
-        if (!Address.isValidAddress(address)) {
-            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
-        }
-        final Address modelAddress = new Address(address);
         // check department
         if (department == null) {
             throw new IllegalValueException(
@@ -110,7 +99,7 @@ public class JsonAdaptedInterviewer extends JsonAdaptedPerson {
         // no need to check availabilities
         final List<Slot> modelAvailabilities = new ArrayList<>(personAvailabilities);
 
-        return new Interviewer.InterviewerBuilder(modelName, modelPhone, modelAddress, modelTags)
+        return new Interviewer.InterviewerBuilder(modelName, modelPhone, modelTags)
                     .department(modelDepartment)
                     .availabilities(modelAvailabilities)
                     .build();

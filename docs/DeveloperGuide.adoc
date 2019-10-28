@@ -88,99 +88,7 @@ The `UI` component,
 * Executes user commands using the `Logic` component.
 * Listens for changes to `Model` data so that the UI can be updated with the modified data.
 
-[[Design-Logic]]
-=== Logic component
-
-[[fig-LogicClassDiagram]]
-.Structure of the Logic Component
-image::LogicClassDiagram.png[]
-
-*API* :
-link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
-
-.  `Logic` uses the `AddressBookParser` class to parse the user command.
-.  This results in a `Command` object which is executed by the `LogicManager`.
-.  The command execution can affect the `Model` (e.g. adding a person).
-.  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
-.  In addition, the `CommandResult` object can also instruct the `Ui` to perform certain actions, such as displaying help to the user.
-
-Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
-
-.Interactions Inside the Logic Component for the `delete 1` Command
-image::DeleteSequenceDiagram.png[]
-
-NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
-[[Design-Model]]
-=== Model component
-
-.Structure of the Model Component
-image::ModelClassDiagram.png[]
-
-*API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
-
-The `Model`,
-
-* stores a `UserPref` object that represents the user's preferences.
-* stores the imported interviewer's availability data as `Schedule`. Each `Schedule` represents an availability table.
-  The data of the `Schedule` can be changed after running the scheduling algorithm.
-* exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* does not depend on any of the other three components.
-
-[[Design-Storage]]
-=== Storage component
-
-.Structure of the Storage Component
-image::StorageClassDiagram.png[]
-
-*API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
-
-The `Storage` component,
-
-* can save `UserPref` objects in json format and read it back.
-* can save the Address Book data in json format and read it back.
-
-[[Design-Commons]]
-=== Common classes
-
-Classes used by multiple components are in the `seedu.addressbook.commons` package.
-
-== Implementation
-
-This section describes some noteworthy details on how certain features are implemented.
-
-=== [coming soon in v1.3] scheduling algorithm
-the scheduling of interviews is essentially a https://www.geeksforgeeks.org/maximum-bipartite-matching/[maximum bipartite matching problem].
-the application is trying to find the **maximum number of matching** between available interview slots
-and interviewees.
-
-in this application, the selected algorithm is https://www.geeksforgeeks.org/hopcroft-karp-algorithm-for-maximum-matching-set-1-introduction/[hopcroft-karp algorithm].
-the complexity of the algorithm is o(√v x e), which is reasonably fast. the relevant details of the algorithm are as below:
-
-**Vertex**
-
-**Edge**
-
-**Matching Criteria** +
-an interviewee matches an interview slot if **all** the criteria below are fulfilled:
-
-. the timing of the slot matches one of the available timings of the interviewee.
-. the department of the time slot matches the department of choice of the interviewee.
-
-**Brief Explanation of the Algorithm** +
-Include an **activity diagram** here to summarise the algorithm.
-
-The proposed implementation of this algorithm is to encapsulate the logic of the algorithm into a `command` class under the
-`logic` component, possibly with the help of some auxiliary classes. the command is then invoked when the user key in the relevant
-command keyword (refer user guide).
-
-when the scheduling algorithm has finished running, it will update the data in the `schedule` objects to reflect the
-scheduled time slots, which the changes will be reflected in ui.
-
-
-=== Display Schedule Feature
-==== Proposed Implementation
-
+==== Schedule View
 The display schedule feature extends Scheduler to display multiple tables of schedule per day. It is a component in the "MainWindow" class
 stored in a "ScheduleViewPanel" class. Within the "ScheduleViewPanel" class, objects of "ScheduleView" class are stored into the panel.
 
@@ -209,6 +117,130 @@ list of ObservableList of interviewee.
 Step 8. The RefreshListenerManager will call the MainWindow to refresh the ScheduleViewPanel.
 
 Step 9. ScheduleViewPanel will firstly clear all the data and input the updated data from the .csv file.
+
+[[Design-Logic]]
+=== Logic component
+
+[[fig-LogicClassDiagram]]
+.Structure of the Logic Component
+image::LogicClassDiagram1_2.png[]
+
+Users should be able to manually key in input (i.e add interviewers and interviewees). We therefore changed the Logic
+package accordingly to suit our needs.
+
+*API* :
+link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
+
+.  `Logic` uses the `AddressBookParser` class to parse the user command.
+.  This results in a `Command` object which is executed by the `LogicManager`.
+.  The command execution can affect the `Model` (e.g. adding a person).
+.  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
+.  In addition, the `CommandResult` object can also instruct the `Ui` to perform certain actions, such as displaying help to the user.
+
+Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+
+.Interactions Inside the Logic Component for the `delete 1` Command
+image::DeleteSequenceDiagram.png[]
+
+NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+[[Design-Model]]
+=== Model component
+
+.Structure of the Model Component
+image::ModelClassDiagram.png[]
+
+*API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
+
+The `Model`,
+
+* stores a `UserPref` object that represents the user's preferences.
+* stores a list of `Schedule`. Each `Schedule` represents a schedule timetable.
+* exposes a list of `ObservableList<ObservableList<String>>` that can be 'observed' by the UI. Each of the
+  `ObservableList<ObservableList<String>>` represents the data of a `Schedule` object.
+  The `ObservableList<ObservableList<String>>` objects are bound to the UI so that the UI automatically updates  when the data of the `Schedule` objects changes.
+* exposes a list of `ObservableList<Interviewee>` that can be 'observed' by the UI.
+* does not depend on any of the other three components.
+
+==== Schedule
+The `Schedule` objects are filled up and created by the imported interviewer's availability. The inner data of a `Schedule` object is the same as the corresponding availability
+table in the imported interviewer's availability. The data of the `Schedule` can be changed after running the scheduling algorithm.
+
+[[Design-Storage]]
+=== Storage component
+
+.Structure of the Storage Component
+image::StorageClassDiagram.png[]
+
+*API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
+
+The `Storage` component,
+
+* can save `UserPref` objects in json format and read it back.
+* can save the Address Book data in json format and read it back.
+
+[[Design-Commons]]
+=== Common classes
+
+Classes used by multiple components are in the `seedu.addressbook.commons` package.
+
+== Implementation
+This section describes some noteworthy details on how certain features are implemented.
+
+=== Add Interviewee/Interviewer feature
+The add command is facilitated by the `AddCommandParser` class. It extends `AddCommandParser` by allowing it to parse
+prefixes specific to our Scheduler app, namely:
+
+* r/ROLE
+* f/FACULTY
+* ep/PERSONAL_EMAIL and ew/NUS_WORK_EMAIL
+* y/YEAR_OF_STUDY
+* d/DEPARTMENT
+* s/SLOT
+
+This command also requires access to the Model package, where the AddressBook implementation lives, as well as the
+Storage package, where the `JsonSerializableAddressBook` implementation lives. Consequently, the following json-friendly
+classes were added:
+
+* JsonAdaptedInterviewee, JsonAdaptedInterviewer, JsonAdaptedDepartment, JsonAdaptedSlot
+
+The following *sequence diagram* describes how the add command works when adding an interviewee:
+
+image::AddSequenceDiagram_1_2.png[]
+
+The following activity diagram shows the steps needed to add a new interviewee:
+
+image::AddActivityDiagram_1_2.png[]
+
+=== [Coming soon in v1.3] Scheduling Algorithm
+The scheduling of interviews is essentially a https://www.geeksforgeeks.org/maximum-bipartite-matching/[maximum bipartite matching problem].
+The application is trying to find the **maximum number of matching** between available interview slots
+and interviewees.
+
+In this application, the selected algorithm is https://www.geeksforgeeks.org/hopcroft-karp-algorithm-for-maximum-matching-set-1-introduction/[hopcroft-karp algorithm].
+The complexity of the algorithm is o(√v x e), which is reasonably fast. The relevant details of the algorithm are as below:
+
+**Vertex**
+
+**Edge**
+
+**Matching Criteria** +
+An interviewee matches an interview slot if **all** the criteria below are fulfilled:
+
+. The timing of the slot matches one of the available timings of the interviewee.
+. The department of the time slot matches the department of choice of the interviewee.
+
+**Brief Explanation of the Algorithm** +
+Include an **activity diagram** here to summarise the algorithm.
+
+
+The proposed implementation of this algorithm is to encapsulate the logic of the algorithm into a `Command` class under
+`Logic` component, possibly with the help of some auxiliary classes. The command is then invoked when the user key in the relevant
+command keyword (refer user guide).
+
+When the scheduling algorithm has finished running, it will update the data in the `Schedule` objects to reflect the
+allocated time slots to the interviewees, which the changes will then be reflected automatically in the UI.
+
 
 === Import
 ==== Implementation
@@ -254,8 +286,31 @@ The Activity Diagram below summarises the execution of the export command.
 image::ExportActivityDiagram.png[]
 
 
-// tag::dataencryption[]
-=== [Proposed] Data Encryption
+=== [Coming soon in v1.3] Email
+==== Implementation
+
+The Email feature makes use of the `java.awt.Desktop` package to activate the default Mail client of the user.
+
+* The `To:` field is automatically populated with all the emails that are tagged to a particular Interviewee.
+* The `Cc:` field is configurable by the user via an optional configuration file.
+* The subject and message body are also automatically populated with details that are relevant to the Interviewee, depending on the context of the command used.
+
+image::EmailSequenceDiagram.png[]
+
+===== Example: Interview timeslot
+
+This is for sending the email to the Interviewee of his/her allocated interview timeslot. Details that vary according to the Interviewee include:
+
+* Date and time of allocated timeslot
+* Interviewer allocated
+
+Additional details that can be configured by the user include:
+
+* Location to report
+* Dress code
+* Any other additional information
+
+The message content can also be configured by the user. However, a default template will be used when no such configuration file exists or is provided.
 
 === Logging
 
