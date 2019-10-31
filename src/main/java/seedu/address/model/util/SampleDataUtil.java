@@ -8,8 +8,7 @@ import java.util.stream.Collectors;
 
 import seedu.address.model.IntervieweeList;
 import seedu.address.model.InterviewerList;
-import seedu.address.model.ReadOnlyIntervieweeList;
-import seedu.address.model.ReadOnlyInterviewerList;
+import seedu.address.model.ReadOnlyList;
 import seedu.address.model.Schedule;
 import seedu.address.model.person.Department;
 import seedu.address.model.person.Interviewee;
@@ -18,7 +17,7 @@ import seedu.address.model.person.Slot;
 import seedu.address.model.tag.Tag;
 
 /**
- * Contains utility methods for populating {@code AddressBook} with sample data.
+ * Contains utility methods for populating {@code IntervieweeList} and {@code IntervieweeList} with sample data.
  */
 public class SampleDataUtil {
 
@@ -42,21 +41,21 @@ public class SampleDataUtil {
         return new Interviewer[0];
     }
 
-    public static ReadOnlyIntervieweeList getSampleIntervieweeList() {
+    public static ReadOnlyList<Interviewee> getSampleIntervieweeList() {
         IntervieweeList sampleIntervieweeList = new IntervieweeList();
 
         for (Interviewee sampleInterviewee : getSampleInterviewees()) {
-            sampleIntervieweeList.addInterviewee(sampleInterviewee);
+            sampleIntervieweeList.addEntity(sampleInterviewee);
         }
 
         return sampleIntervieweeList;
     }
 
-    public static ReadOnlyInterviewerList getSampleInterviewerList() {
+    public static ReadOnlyList<Interviewer> getSampleInterviewerList() {
         InterviewerList sampleInterviewerList = new InterviewerList();
 
         for (Interviewer sampleInterviewer : getSampleInterviewers()) {
-            sampleInterviewerList.addInterviewer(sampleInterviewer);
+            sampleInterviewerList.addEntity(sampleInterviewer);
         }
 
         return sampleInterviewerList;
@@ -108,4 +107,3 @@ public class SampleDataUtil {
                 .collect(Collectors.toList());
     }
 }
-
