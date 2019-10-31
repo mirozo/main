@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.ParseException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
@@ -36,6 +37,10 @@ public interface Model {
     void setPerson(Person target, Person editedPerson);
 
     /* TODO: REMOVE ABOVE LINES */
+
+    void setEmptyScheduleList() throws ParseException;
+
+    List<Schedule> getEmptyScheduleList();
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.

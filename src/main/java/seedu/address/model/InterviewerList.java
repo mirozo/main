@@ -2,11 +2,17 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.person.Department;
 import seedu.address.model.person.Interviewer;
+import seedu.address.model.person.Name;
+import seedu.address.model.person.Slot;
 import seedu.address.model.person.UniquePersonList;
 
 /**
@@ -28,6 +34,7 @@ public class InterviewerList implements ReadOnlyInterviewerList {
         this();
         this.resetData(toBeCopied);
     }
+
 
     /**
      * Replaces the contents of the interviewer list with {@code interviewers}.
@@ -91,6 +98,8 @@ public class InterviewerList implements ReadOnlyInterviewerList {
     public void removeInterviewer(Interviewer key) {
         this.interviewers.remove(key);
     }
+
+
 
     @Override
     public String toString() {

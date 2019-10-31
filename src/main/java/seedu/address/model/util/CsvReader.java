@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
@@ -31,20 +30,16 @@ public class CsvReader {
 
     /**
      * Constructor for CsvReader object to read from excel.
-<<<<<<< HEAD
      * @param filePath Path of csv file
-=======
-     * @param filePath
->>>>>>> 8d5e5072afe29f45a0772570f143a75cefd6b715
      */
     public CsvReader(String filePath) {
         this.filePath = filePath;
     }
 
     /**
-     * Reads from excel and returns the corresponding string.
-     * @return String
-     * @throws IOException if input file is not found.
+     * Reads from .csv file and returns a list of Interviewer objects.
+     * @return ArrayList of Interviewers
+     * @throws IOException if input file is not found or file is in incorrect format.
      */
     public ArrayList<Interviewer> readInterviewers() throws IOException {
 
@@ -56,11 +51,12 @@ public class CsvReader {
             ArrayList<Interviewer> emptyList = new ArrayList<>();
             return emptyList;
         }
-        String date = null;
+
         ArrayList<Interviewer> interviewers = new ArrayList<>();
         csvReader.readLine(); //removes next line
 
         for (int i = 0; i < numberOfDays; i++) {
+            String date = null;
             String row;
             boolean firstEncounter = true;
             boolean firstRow = true;
@@ -73,15 +69,12 @@ public class CsvReader {
                         break;
                     }
                 } else if (firstRow) {
+                    date = rowData[0];
                     if (i == 0) { //if this is the first table(day) being read
-                        date = rowData[0];
                         interviewers = getInterviewersFromHeader(rowData);
                     }
                     firstRow = false;
                 } else {
-                    if (date == null) {
-                        throw new FileFormatException();
-                    }
                     updateInterviewersSlotsFromData(interviewers, rowData, date);
                 }
             }
@@ -90,6 +83,11 @@ public class CsvReader {
         return interviewers;
     }
 
+    /**
+     * Reads from .csv file and returns a list of Interviewee objects.
+     * @return ArrayList of Interviewees
+     * @throws IOException if input file is not found or file is in incorrect format.
+     */
     public ArrayList<Interviewee> readInterviewees() throws IOException{
         BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
         ArrayList<Interviewee> interviewees = new ArrayList<>();
@@ -132,37 +130,71 @@ public class CsvReader {
 
     }
 
+    /**
+     * Static method to get the integer value from a String in the format ("key = value").
+     * @param element String in the format ("key = value")
+     * @return int value
+     */
     private static int getValue(String element) {
         String[] strings = element.split("=");
         String trimmedString = strings[1].trim();
         return Integer.parseInt(trimmedString);
     }
 
+    /**
+     * Checks if file exists.
+     * @return boolean true if file exists, false otherwise
+     */
     private boolean fileExists() {
         File file = new File(this.filePath);
         return file.exists();
     }
 
+    /**
+     * Gets the interviewer's name from a String.
+     * @param cell String that contains interviewer's name
+     * @return Interviewer's name
+     */
     private static Name getInterviewerName(String cell) {
         String[] strings = cell.split("-");
         return new Name(strings[1].trim());
     }
 
+    /**
+     * Gets the interviewer's department from a String.
+     * @param cell String that contains interviewer's department
+     * @return Interviewer's department
+     */
     private static Department getInterviewerDepartment(String cell) {
         String[] strings = cell.split("-");
         return new Department(strings[0].trim());
     }
 
+    /**
+     * Gets the Start time from a String in the format "hh:mm - hh:mm".
+     * @param timeRange String that contains interviewer's department
+     * @return String start time
+     */
     private static String getStartTime(String timeRange) {
         String[] strings = timeRange.split("-");
         return strings[0].trim();
     }
 
+    /**
+     * Gets the End time from a String in the format "hh:mm - hh:mm".
+     * @param timeRange String that contains interviewer's department
+     * @return String End time
+     */
     private static String getEndTime(String timeRange) {
         String[] strings = timeRange.split("-");
         return strings[1].trim();
     }
 
+    /**
+     * Generates and returns a list of interviewers with empty availabilities from a header row.
+     * @param rowData Header row
+     * @return ArrayList of interviewer objects
+     */
     private static ArrayList<Interviewer> getInterviewersFromHeader(String[] rowData) {
         ArrayList<Interviewer> interviewers = new ArrayList<>();
         for (int j = 1; j < rowData.length; j++) {
@@ -178,6 +210,12 @@ public class CsvReader {
         return interviewers;
     }
 
+    /**
+     * Updates availabilities of interviewers.
+     * @param interviewers List of interviewer objects
+     * @param rowData Raw data of availabilities
+     * @param date Date of availability
+     */
     private static void updateInterviewersSlotsFromData(ArrayList<Interviewer> interviewers,
                                                                 String[] rowData, String date) {
         String timing = rowData[0];
@@ -195,6 +233,12 @@ public class CsvReader {
         }
     }
 
+    /**
+     * Returns the deep copy of the list of slots given.
+     *
+     * @param list the list of slots to be copied.
+     * @return the deep copy of the list of slots given.
+     */
    private static List<Slot> cloneSlots(List<Slot> list) {
         List<Slot> listClone = new ArrayList<>();
         for (Slot slot : list) {

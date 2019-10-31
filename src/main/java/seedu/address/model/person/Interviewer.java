@@ -97,6 +97,15 @@ public class Interviewer extends Person {
         this.availabilities.addAll(slots);
     }
 
+    public boolean isAvailable(Slot slot) {
+        for (Slot availableSlot: availabilities) {
+            if (availableSlot.equals(slot)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Returns true if both interviewees have the same identity and data fields.
      * This defines a stronger notion of equality between two interviewees.
