@@ -20,8 +20,6 @@ import seedu.address.model.Schedule;
 import seedu.address.model.person.Interviewee;
 import seedu.address.model.person.Interviewer;
 import seedu.address.storage.Storage;
-import seedu.address.ui.RefreshListener;
-import seedu.address.ui.ScheduleViewPanel;
 
 /**
  * The main LogicManager of the app.
