@@ -47,9 +47,11 @@ public class ScheduleViewPanel extends UiPart<Region> {
     /**
      * Fill the panel when user import data.
      */
-    public void dataUpdated(List<ObservableList<ObservableList<String>>> newList) {
+    public void dataUpdated(List<List<String>> titles, List<ObservableList<ObservableList<String>>> newSchedules) {
         clearData();
-        this.scheduleList = newList;
+        this.titles = titles;
+        this.scheduleList = newSchedules;
+
         for (int i = 0; i < scheduleList.size(); i++) {
             scheduleViewList.add(new ScheduleView(titles.get(i), scheduleList.get(i)));
         }

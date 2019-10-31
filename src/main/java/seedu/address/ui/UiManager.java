@@ -52,7 +52,7 @@ public class UiManager implements Ui {
      * Signals the main window that the data of schedules are updated.
      */
     public void scheduleDataUpdated() {
-        mainWindow.scheduleDataUpdated(logic.getObservableLists());
+        mainWindow.scheduleDataUpdated(logic.getTitlesLists(), logic.getObservableLists());
     }
 
     private Image getImage(String imagePath) {

@@ -191,8 +191,9 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Signals the scheduleview panel that the data of the schedules are updated.
      */
-    public void scheduleDataUpdated(List<ObservableList<ObservableList<String>>> newList) {
-        scheduleViewPanel.dataUpdated(newList);
+    public void scheduleDataUpdated(List<List<String>> newTitles,
+                                    List<ObservableList<ObservableList<String>>> newSchedules) {
+        scheduleViewPanel.dataUpdated(newTitles, newSchedules);
     }
 
     /**
