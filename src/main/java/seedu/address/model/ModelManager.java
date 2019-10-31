@@ -36,7 +36,7 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
  * Represents the in-memory model of the schedule table data.
  */
 public class ModelManager implements Model {
-    private static List<Schedule> EMPTY_SCHEDULE_LIST = new ArrayList<>();
+    private static List<Schedule> emptyScheduleList = new ArrayList<>();
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final UserPrefs userPrefs;
@@ -255,13 +255,18 @@ public class ModelManager implements Model {
 
     //=========== Schedule ================================================================================
     public void setEmptyScheduleList() throws ParseException {
-        EMPTY_SCHEDULE_LIST = this.generateEmptyScheduleList();
+        emptyScheduleList = this.generateEmptyScheduleList();
     }
 
     public List<Schedule> getEmptyScheduleList() {
-        return EMPTY_SCHEDULE_LIST;
+        return emptyScheduleList;
     }
 
+    /**
+     * Generates an empty schedule list from the current interviewer list. Used to generate GUI after user imports data.
+     * @return ArrayList of {@Code Schedule}
+     * @throws ParseException when timings are not of HH:mm format
+     */
     private ArrayList<Schedule> generateEmptyScheduleList() throws ParseException {
         ArrayList<Schedule> emptyScheduleList = new ArrayList<>();
         HashSet<String> dates = new HashSet<>();
@@ -270,10 +275,10 @@ public class ModelManager implements Model {
         int duration = userPrefs.getDurationPerSlot();
         ObservableList<Interviewer> listOfInterviewers = interviewerList.getEntityList();
         for (Interviewer interviewer: listOfInterviewers) {
-            List<Slot> availabilities =  interviewer.getAvailabilities();
+            List<Slot> availabilities = interviewer.getAvailabilities();
             for (Slot slot: availabilities) {
                 String date = slot.date;
-                    dates.add(date);
+                dates.add(date);
             }
         }
 
@@ -315,7 +320,13 @@ public class ModelManager implements Model {
         return emptyScheduleList;
     }
 
-
+    /**
+     * Adds the given duration to the given time.
+     * @param duration amount of time to add
+     * @param currentTime original time
+     * @return String result after addition
+     * @throws ParseException when String currentTime is not of HH:mm format
+     */
     private static String addTime(int duration, String currentTime) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         Date date = dateFormat.parse(currentTime);
@@ -326,6 +337,13 @@ public class ModelManager implements Model {
         return newTime;
     }
 
+    /**
+     * Compares 2 given times as String in format HH:mm, and returns true if the first is greater than the second.
+     * @param currentTime
+     * @param endTime
+     * @return True if currentTime is greater or equals to endTime
+     * @throws ParseException
+     */
     private static boolean isGreaterThanOrEqual(String currentTime, String endTime) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         Date currentTimeAsDate = dateFormat.parse(currentTime);
@@ -333,6 +351,12 @@ public class ModelManager implements Model {
         return currentTimeAsDate.after(endTimeAsDate) || currentTimeAsDate.equals(endTimeAsDate);
     }
 
+    /**
+     * Static method to combine name and department into one string used for headers.
+     * @param name
+     * @param department
+     * @return Header as String
+     */
     private static String stringifyHeadersForTable(Name name, Department department) {
         return department.toString() + " - " + name.toString();
     }

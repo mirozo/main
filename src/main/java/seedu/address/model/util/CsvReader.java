@@ -87,7 +87,7 @@ public class CsvReader {
      * @return ArrayList of Interviewees
      * @throws IOException if input file is not found or file is in incorrect format.
      */
-    public ArrayList<Interviewee> readInterviewees() throws IOException{
+    public ArrayList<Interviewee> readInterviewees() throws IOException {
         BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
         ArrayList<Interviewee> interviewees = new ArrayList<>();
         csvReader.readLine(); //discard first line
@@ -116,7 +116,8 @@ public class CsvReader {
                     availableTimeSlots.add(slot);
                 }
             }
-            Interviewee.IntervieweeBuilder builder = new Interviewee.IntervieweeBuilder(name, phone, DefaultValues.DEFAULT_TAGS);
+            Interviewee.IntervieweeBuilder builder =
+                    new Interviewee.IntervieweeBuilder(name, phone, DefaultValues.DEFAULT_TAGS);
             builder.availableTimeslots(availableTimeSlots);
             builder.departmentChoices(choiceOfDepartments);
             builder.emails(allEmails);
@@ -234,11 +235,10 @@ public class CsvReader {
 
     /**
      * Returns the deep copy of the list of slots given.
-     *
      * @param list the list of slots to be copied.
      * @return the deep copy of the list of slots given.
      */
-   private static List<Slot> cloneSlots(List<Slot> list) {
+    private static List<Slot> cloneSlots(List<Slot> list) {
         List<Slot> listClone = new ArrayList<>();
         for (Slot slot : list) {
             listClone.add(slot);

@@ -97,6 +97,11 @@ public class Interviewer extends Person {
         this.availabilities.addAll(slots);
     }
 
+    /**
+     * Checks if interviewer is available for the given slot.
+     * @param slot
+     * @return True if interviewer is available, false otherwise
+     */
     public boolean isAvailable(Slot slot) {
         for (Slot availableSlot: availabilities) {
             if (availableSlot.equals(slot)) {
