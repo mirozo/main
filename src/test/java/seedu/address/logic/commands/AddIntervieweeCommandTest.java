@@ -31,6 +31,7 @@ import seedu.address.model.person.Interviewee;
 import seedu.address.model.person.Interviewer;
 import seedu.address.model.person.Slot;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.ui.RefreshListener;
 
 class AddIntervieweeCommandTest {
 
@@ -248,6 +249,11 @@ class AddIntervieweeCommandTest {
 
         @Override
         public void setGuiSettings(GuiSettings guiSettings) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addRefreshListener(RefreshListener listener) {
             throw new AssertionError("This method should not be called.");
         }
 
