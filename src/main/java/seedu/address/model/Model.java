@@ -13,6 +13,7 @@ import seedu.address.model.person.Interviewee;
 import seedu.address.model.person.Interviewer;
 import seedu.address.model.person.Slot;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.ui.RefreshListener;
 
 /**
  * The API of the Model component.
@@ -157,6 +158,13 @@ public interface Model {
      * The Interviewee must exist in the database.
      */
     void emailInterviewee(Interviewee interviewee) throws IOException;
+
+    // ================================== Refresh Listener ======================================
+
+    /**
+     * Add a refresh listener to listen to changes of Schedule data.
+     */
+    void addRefreshListener(RefreshListener listener);
 
     // ============================================ Schedule ===================================================
 

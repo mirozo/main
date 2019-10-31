@@ -24,6 +24,7 @@ import seedu.address.model.person.Interviewer;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Slot;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.ui.RefreshListener;
 
 /**
  * Represents the in-memory model of the schedule table data.
@@ -39,6 +40,8 @@ public class ModelManager implements Model {
     private final InterviewerList interviewerList;
     private final FilteredList<Interviewee> filteredInterviewees; // if we want to display all interviewees on UI
     private final FilteredList<Interviewer> filteredInterviewers; // if we want to display all inteviewers on UI
+
+    private RefreshListener refreshListener;
 
     /**
      * Initializes a ModelManager with the given intervieweeList, interviewerList, userPrefs and schedulesList.
@@ -246,6 +249,11 @@ public class ModelManager implements Model {
         desktop.mail(uri);
     }
 
+    // ================================== Refresh Listener ======================================
+    public void addRefreshListener(RefreshListener listener) {
+        this.refreshListener = listener;
+    }
+
     // ============================================ Schedule ===================================================
 
     /**
@@ -283,6 +291,11 @@ public class ModelManager implements Model {
     public void setSchedulesList(List<Schedule> list) {
         schedulesList.clear();
         schedulesList.addAll(cloneSchedulesList(list));
+
+        if (refreshListener != null) {
+            refreshListener.scheduleDataUpdated();
+        }
+
         logger.fine("Schedules list is reset");
     }
 
