@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
 import seedu.address.model.Model;
 import seedu.address.model.person.DefaultValues;
 import seedu.address.model.person.Department;

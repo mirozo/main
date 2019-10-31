@@ -57,12 +57,13 @@ public class ImportCommand extends Command {
                     model.addInterviewer(interviewer);
                 }
                 model.setEmptyScheduleList();
-                List<Schedule> list = model.getEmptyScheduleList();
+                List<Schedule> schedules = model.getEmptyScheduleList();
+                model.setSchedulesList(schedules);
+
                 return new CommandResult(SUCCESS_MESSAGE, false, false);
             } else if (this.type.equals("interviewee")) {
                 CsvReader csvReader = new CsvReader(filePath);
                 ArrayList<Interviewee> interviewees = csvReader.readInterviewees();
-                model.setIntervieweeList(interviewees);
                 for (Interviewee interviewee: interviewees) {
                     model.addInterviewee(interviewee);
                 }
