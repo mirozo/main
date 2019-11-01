@@ -79,6 +79,8 @@ public class ImportCommand extends Command {
             throw new CommandException(DUPLICATE_PERSON_ERROR, dpe);
         } catch (IllegalArgumentException iae) {
             throw new CommandException(DATE_FORMAT_ERROR_MESSAGE, iae);
+        } catch (Exception e) {
+            throw new CommandException(INCORRECT_FORMAT, e);
         }
     }
 }
