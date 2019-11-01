@@ -26,7 +26,7 @@ Click on <<Quick Start, Quick Start>> to get started!
 This guide shows you how to import your interview schedules into Scheduler to begin managing your interview schedule.
 It also shows you basic tips on how to add or delete and edit interviewers/interviewees based on your changing needs.
 
-=== Import your csv file into the application `[Coming in v2.0]`
+=== Import your csv file into the application
 
 TIP: Converting your Excel file into .csv format
 
@@ -68,8 +68,18 @@ Shows helpful information on using this software.
 Format: `help`
 
 === Importing existing availabilities `import`
+The to-be-imported interviewer availability and interviewee details .csv file needs to follow the format as the templates below.
+The templates for the import commands can be found here:
+
+* Interviewer availability: http://bit.ly/interviewerTemplate
+* Interviewees details: http://bit.ly/intervieweeDetails
+
+After you have imported the data, you will need to type `clear` to clear the imported data before you can import another interviewer's
+availability or interviewees details .csv file.
+
 ==== Importing interviewers’ availability
-Imports interviewers’ availability from a comma separated values (CSV) file. +
+Imports interviewers’ availability from a comma separated values (CSV) file.
+
 Format: `import interviewer PATH_TO_FILE` +
     - PATH_TO_FILE is the absolute path to the file. +
     - E.g C:\\Users\Bob\file.csv
@@ -88,20 +98,86 @@ Example:
 
  import interviewer C:\Users\johndoe\Interviewees.csv
 
-=== Add interviewers/interviewees `add`
-Manually add a new interviewer to the database. +
-Format: `add interviewer name:"NAME" slot:SLOT...` +
+=== Add interviewees/interviewers `add`
+Manually add a new entity to the database.
 
-Examples:
+Format: `add r/ROLE n/NAME p/PHONE [t/TAG]... [f/FACULTY] [ep/PERSONAL_EMAIL] [ew/NUS_WORK_EMAIL] [y/YEAR_OF_STUDY] [d/DEPARTMENT]... [s/SLOT]...`
 
- add interviewee name:"John Doe" slot:"20/09/2019 18:00 - 20/09/2019 21:00"
- add interviewee name:"Mary Jane" slot:"20/09/2019 18:00 - 20/09/2019 19:00" slot:"20/09/2019 20:00 - 20/09/2019 21:00"
+* A `...` at the end of a field indicates that multiple arguments with those prefixes can be added, such as multiple slots.
+* The command format differs on the `r/ROLE` prefix supplied.
+** If `interviewee` is supplied, refer to "Adding a new interviewee" below.
+** If `interviewer` is supplied, refer to "Adding a new interviewer" below.
 
-Notes:
+==== Adding a new interviewee
+Manually add a new interviewee to the database.
 
-- An interviewee can have multiple slots (given by multiple “slot:” arguments)
-- Slots should be given in the format: `DD/MM/YYYY HH:MM - DD/MM/YYYY HH:MM`, where the first date and time is the starting time and the second date and time is the ending time of availability.
-- The starting date should be a date and time that is earlier than the ending date
+Format: add `r/interviewee` `n/NAME` `p/PHONE` `[t/TAG]...` `f/FACULTY` `ep/PERSONAL_EMAIL` `ew/NUS_WORK_EMAIL` `y/YEAR_OF_STUDY` +
+`[d/DEPARTMENT]...` `[s/SLOT]...`
+
+Example:
+
+ add r/interviewee n/John Doe p/88888888 t/CAP5 t/dog lover f/School of Computing ep/JohnDoe@gmail.com ew/JohnDoe@u.nus.edu y/2018 d/Marketing s/20/09/2019 18:00-19:00
+
+* An interviewee can have multiple `s/SLOT`, `d/DEPARTMENT` and `t/TAG` arguments
+* Slots should be given in the format: `DD/MM/YYYY HH:MM-HH:MM`
+** the first `HH:MM` refers to the starting time and the second `HH:MM` is the ending time of availability.
+** The starting time must be earlier than the ending time.
+
+==== Adding a new interviewer
+Manually add a new interviewer to the database.
+
+Format: add `r/interviewer` `n/NAME` `p/PHONE` `[t/TAG]...` `d/DEPARTMENT` `ew/NUS_WORK_EMAIL` `s/SLOT...`
+
+Example:
+
+ add r/interviewer n/Mary Jane p/99999999 ew/MaryJane@u.nus.edu d/Marketing s/20/09/2019 18:00-19:00
+
+=== Edit interviewees/interviewers
+Manually edit an entity in the database.
+
+Format: `edit NAME r/ROLE p/PHONE [t/TAG]... f/FACULTY ep/PERSONAL_EMAIL ew/NUS_WORK_EMAIL y/YEAR_OF_STUDY [d/DEPARTMENT]... [s/SLOT]...`
+
+* `NAME` must be provided after `edit` and before the first prefix `r/ROLE`.
+* A `...` at the end of a field indicates that multiple arguments with those prefixes can be added, such as multiple slots.
+* The command format differs on the `r/ROLE` prefix supplied.
+** If `interviewee` is supplied, refer to "Edit an existing interviewee" below.
+** If `interviewer` is supplied, refer to "Edit an existing interviewer" below.
+
+==== Edit an existing interviewee
+Manually edit an existing interviewee in the database.
+
+Format: edit `NAME` `r/interviewee` `p/PHONE` `[t/TAG]...` `f/FACULTY` `ep/PERSONAL_EMAIL` `ew/NUS_WORK_EMAIL` `y/YEAR_OF_STUDY`
+`[d/DEPARTMENT]...` `[s/SLOT]...`
+
+* `NAME` and `r/interviewee` are compulsory arguments, and one other argument following `r/interviewee` must be present.
+
+==== Edit an existing interviewer (interview slot)
+Manually edit an existing interviewer in the database.
+
+Format: edit `NAME` `r/interviewer` `p/PHONE` `[t/TAG]...` `d/DEPARTMENT` `ew/NUS_WORK_EMAIL` `s/SLOT...`
+
+=== Delete interviewees/interviewers `delete`
+Manually delete an entity from the database.
+
+Format: `delete NAME r/ROLE`
+
+==== Delete an existing interviewee
+Deletes the specified interviewee from the database.
+
+Format: delete `NAME` `r/interviewee`
+
+Example:
+
+ delete John Doe r/interviewee
+
+==== Delete an existing interviewer (interview slot)
+Deletes the specified interviewer from the database
+
+Format: delete `NAME` `r/interviewee`
+
+Example:
+
+ delete Bohn Doe r/interviewer
 
 === UI Display
 
@@ -151,24 +227,6 @@ Example:
 
  get "John Doe"
 
-=== Changing availabilities `edit` `[Coming in v2.0]`
-==== Changing availabilities of existing interviewer (interview slot)
-Change the specified interviewer from the database +
-Format: `edit interviewer NAME`
-
-==== Changing availabilities of existing interviewee
-Change the specified interviewee from the database. +
-Format: `edit interviewee NAME`
-
-=== Delete interviewer/interviewee `delete`
-==== Delete existing interviewer (interview slot)
-Deletes the specified interviewer from the database +
-Format: `delete interviewer NAME` +
-
-==== Delete existing interviewee
-Deletes the specified interviewee from the database. +
-Format: `delete interviewee NAME`
-
 === Tag interview slot `tag` `[Coming in v2.0]`
 Tags an interview slot with a name. +
 Format: `tag TAG_NAME` +
@@ -176,27 +234,29 @@ Format: `tag TAG_NAME` +
 User will also be able to filter by tags. +
 Format: `filter tag TAG_NAME` +
 
-=== Scheduling `generate`
-==== Generating timetable of all available time slots
-Generate the timetable of all available interview time slots based on the availability of interviewers. +
-Format: `generate timetable` +
-
-==== Generating full interview schedule
+=== Scheduling `schedule`
+==== Schedule the interviews
 Schedule and allocate interviewees to the available interview slots based on the availability of interviewees and
-the timetable of all available interview time slots. +
-Format: `generate schedule` +
+their choice of department. As of V1.3, the scheduling result is reflected on the console of the application. This will
+be updated such that the result is reflected in the displayed interview timetable at v1.4. +
+Format: `schedule` +
 
-**Note:** This command requires the timetable of all available time slots to be generated first!
-
-=== Exporting of interview schedule `export`
+=== Exporting of interview schedule `export` [Coming soon in v1.4]
 Exports the allocated interview schedule timetable to a comma separated values (CSV) file. +
 Format: `export` +
 
 Note: This command requires the interview schedule to be generated first!
 
 === Sending of email `email`
-==== Sending of interview time slot to interviewees
-Sends an email containing the interviewee’s allocated interview time slot to every interviewee, including other details such as the interviewer, time, date and location.
+==== Sending of interview time slot to interviewee [Coming soon in v1.4]
+Sends an email containing the interviewee’s allocated interview time slot to a particular interviewee specified, including other details such as the interviewer, time, date and location.
+
+Format: `email timeslot NAME`
+
+**Note:** The email will only be sent if the interviewee’s email is present in the database and that the interview schedule has already been generated.
+
+==== Sending of interview time slot to all interviewees [Coming soon in v1.4]
+Sends an email containing the interviewee's allocated interview time slot to every interviewee, including other details such as the interviewer, time, date and location.
 
 Format: `email timeslots`
 
@@ -208,11 +268,6 @@ Sends an email containing the interviewee’s result/interview outcome and other
 Format: `email results`
 
 **Note:** This email will only be sent if the interviewee’s email is present in the database and that the interview schedule has already been generated.
-
-==== Checking of email sending queue status `[Coming in v2.0]`
-Checks the status of the mail sending queue.
-
-Format: `email status`
 
 === Recording of additional statuses: `record` `[Coming in v2.0]`
 ==== Recording of interviewee’s attendance
@@ -243,12 +298,12 @@ Format: `record rank`
 |`import interviewer PATH_TO_FILE` +
   `import interviewee PATH_TO_FILE`
 
+|Clear imported data
+|`clear` +
+
 |Add interviewers/interviewees
 |`add interviewer name:"NAME" slot:SLOT...` +
  `add interviewee name:"NAME" slot:SLOT...`
-
-|Display list of interviewers/interviewees
-|`display interviewees`
 
 |Get interview schedule for interviewer/interviewee
 |`get NAME` +
@@ -268,8 +323,7 @@ Format: `record rank`
 |`filter tag TAG_NAME` +
 
 |Schedule
-|`generate timetable` +
- `generate schedule`
+|`schedule` +
 
 |Export
 |`export` +
