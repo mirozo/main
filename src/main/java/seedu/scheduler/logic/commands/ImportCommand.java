@@ -35,9 +35,9 @@ public class ImportCommand extends Command {
     private static final String FILE_DOES_NOT_EXIST = "Target file does not exist. Please ensure that "
             + "the file path is correct.";
     private static final String DUPLICATE_PERSON_ERROR = "Data contains entries that are duplicated/already exists "
-            + "in storage. Please remove those entries before running the import command.";
+            + "in storage. Please type 'clear'(without the quote) to remove those entries before running the import "
+            + "command.";
     private static final String DATE_FORMAT_ERROR_MESSAGE = "A slot should follow this format: dd/mm/yyyy hh:mm-hh:mm";
-
     private String filePath;
     private String type;
 
@@ -79,8 +79,6 @@ public class ImportCommand extends Command {
             throw new CommandException(DUPLICATE_PERSON_ERROR, dpe);
         } catch (IllegalArgumentException iae) {
             throw new CommandException(DATE_FORMAT_ERROR_MESSAGE, iae);
-        } catch (Exception e) {
-            throw new CommandException(INCORRECT_FORMAT, e);
         }
     }
 }
