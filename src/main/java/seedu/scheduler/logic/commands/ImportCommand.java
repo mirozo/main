@@ -38,7 +38,6 @@ public class ImportCommand extends Command {
             + "in storage. Please type 'clear'(without the quote) to remove those entries before running the import "
             + "command.";
     private static final String DATE_FORMAT_ERROR_MESSAGE = "A slot should follow this format: dd/mm/yyyy hh:mm-hh:mm";
-    
     private String filePath;
     private String type;
 
