@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -438,13 +439,16 @@ public class ModelManager implements Model {
         logger.fine("Schedules list is reset");
     }
 
-    public void updateScheduleList() {
+    /**
+     * Updates schedule list with an empty schedule list.
+     */
+    private void updateScheduleList() {
         try {
             this.setEmptyScheduleList();
             List<Schedule> schedules = this.getEmptyScheduleList();
             this.setSchedulesList(schedules);
         } catch (ParseException e) {
-
+            logger.log(Level.WARNING, "Should not have exceptions");
         }
     }
 

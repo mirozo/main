@@ -4,16 +4,13 @@ import static seedu.scheduler.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORM
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import seedu.scheduler.commons.core.LogsCenter;
 import seedu.scheduler.logic.commands.exceptions.CommandException;
 import seedu.scheduler.model.Model;
-import seedu.scheduler.model.Schedule;
 import seedu.scheduler.model.person.Interviewee;
 import seedu.scheduler.model.person.Interviewer;
 import seedu.scheduler.model.person.exceptions.DuplicatePersonException;
@@ -24,7 +21,6 @@ import seedu.scheduler.model.util.CsvReader;
  * Import csv file containing interviewer's/ interviewers's information.
  */
 public class ImportCommand extends Command {
-    private static final Logger logger = LogsCenter.getLogger(ImportCommand.class);
     public static final String COMMAND_WORD = "import";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Import .csv file containing "
             + "interviewer or interviewee's information.\n"
@@ -40,6 +36,8 @@ public class ImportCommand extends Command {
             + "in storage. Please type 'clear'(without the quote) to remove those entries before running the import "
             + "command.";
     private static final String DATE_FORMAT_ERROR_MESSAGE = "Error in data formatting: ";
+    private static final Logger logger = LogsCenter.getLogger(ImportCommand.class);
+
     private String filePath;
     private String type;
 

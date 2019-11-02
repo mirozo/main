@@ -11,7 +11,6 @@ import seedu.scheduler.model.Model;
 import seedu.scheduler.model.person.DefaultValues;
 import seedu.scheduler.model.person.Department;
 import seedu.scheduler.model.person.Email;
-import seedu.scheduler.model.person.EmailType;
 import seedu.scheduler.model.person.Emails;
 import seedu.scheduler.model.person.Faculty;
 import seedu.scheduler.model.person.Interviewee;

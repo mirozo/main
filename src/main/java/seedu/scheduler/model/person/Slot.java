@@ -21,7 +21,6 @@ import seedu.scheduler.logic.parser.exceptions.ParseException;
  * Represents an interview timeslot an {@code Interviewee} is allocated.
  */
 public class Slot implements Comparable<Slot> {
-    private static final Logger logger = LogsCenter.getLogger(Slot.class);
     public static final String STRING_FORMAT = "%s %s-%s";
     public static final String MESSAGE_CONSTRAINTS =
             "A slot should follow this format: " + String.format(STRING_FORMAT, "dd/mm/yyyy", "hh:mm", "hh:mm");
@@ -31,6 +30,7 @@ public class Slot implements Comparable<Slot> {
             Pattern.compile("(?<date>\\d{2}/\\d{2}/\\d{4}) (?<slot1>\\d{2}:\\d{2})-(?<slot2>\\d{2}:\\d{2})");
     private static final DateTimeFormatter parseFormatter =
             DateTimeFormatter.ofPattern(DATETIME_PARSE_PATTERN, Locale.ENGLISH).withZone(ZoneId.systemDefault());
+    private static final Logger logger = LogsCenter.getLogger(Slot.class);
 
     public final String date;
     public final String start;
