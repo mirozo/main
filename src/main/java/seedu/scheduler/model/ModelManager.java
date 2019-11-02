@@ -154,6 +154,7 @@ public class ModelManager implements Model {
     @Override
     public void addInterviewer(Interviewer interviewer) {
         interviewerList.addEntity(interviewer);
+        this.updateScheduleList();
     }
 
     /**
@@ -227,11 +228,13 @@ public class ModelManager implements Model {
     @Override
     public void deleteInterviewee(Interviewee target) throws PersonNotFoundException {
         intervieweeList.removeEntity(target);
+        this.updateScheduleList();
     }
 
     @Override
     public void deleteInterviewer(Interviewer target) throws PersonNotFoundException {
         interviewerList.removeEntity(target);
+        this.updateScheduleList();
     }
 
     @Override
@@ -435,6 +438,15 @@ public class ModelManager implements Model {
         logger.fine("Schedules list is reset");
     }
 
+    public void updateScheduleList() {
+        try {
+            this.setEmptyScheduleList();
+            List<Schedule> schedules = this.getEmptyScheduleList();
+            this.setSchedulesList(schedules);
+        } catch (ParseException e) {
+
+        }
+    }
 
     @Override
     public void addInterviewerToSchedule(Interviewer interviewer) {
