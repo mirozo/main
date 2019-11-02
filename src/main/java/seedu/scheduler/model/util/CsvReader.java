@@ -69,6 +69,7 @@ public class CsvReader {
                     }
                 } else if (firstRow) {
                     date = rowData[0];
+                    assert date != null;
                     if (i == 0) { //if this is the first table(day) being read
                         interviewers = getInterviewersFromHeader(rowData);
                     }
