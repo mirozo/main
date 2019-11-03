@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import seedu.scheduler.model.Model;
 import seedu.scheduler.model.person.DefaultValues;
 import seedu.scheduler.model.person.Department;
 import seedu.scheduler.model.person.Email;
