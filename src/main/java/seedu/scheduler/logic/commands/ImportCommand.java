@@ -25,18 +25,17 @@ public class ImportCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Import .csv file containing "
             + "interviewer or interviewee's information.\n"
             + "Example: " + COMMAND_WORD + " interviewer " + "<csvFilePath>";
-
     public static final String SUCCESS_MESSAGE = "Data imported successfully.";
     public static final String MESSAGE_NOT_IMPLEMENTED_YET = "Command not implemented yet";
-    private static final String INCORRECT_FORMAT = "Data is in incorrect format. Please refer to the "
+    public static final String INCORRECT_FORMAT = "Data is in incorrect format. Please refer to the "
             + "User Guide for the supported format";
-    private static final String FILE_DOES_NOT_EXIST = "Target file does not exist. Please ensure that "
+    public static final String FILE_DOES_NOT_EXIST = "Target file does not exist. Please ensure that "
             + "the file path is correct.";
-    private static final String DUPLICATE_PERSON_ERROR = "Data contains entries that are duplicated/already exists "
+    public static final String DUPLICATE_PERSON_ERROR = "Data contains entries that are duplicated/already exists "
             + "in storage. Please type 'clear'(without the quote) to remove those entries before running the import "
             + "command.";
-    private static final String DATE_FORMAT_ERROR_MESSAGE = "Error in data formatting: ";
-    private static final Logger logger = LogsCenter.getLogger(ImportCommand.class);
+    public static final String DATE_FORMAT_ERROR_MESSAGE = "Error in data formatting: ";
+    public static final Logger logger = LogsCenter.getLogger(ImportCommand.class);
 
     private String filePath;
     private String type;
