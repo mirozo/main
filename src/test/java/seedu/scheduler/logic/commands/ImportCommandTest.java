@@ -5,6 +5,7 @@ import static seedu.scheduler.logic.commands.CommandTestUtil.assertCommandSucces
 import org.junit.jupiter.api.Test;
 
 import seedu.scheduler.commons.core.Messages;
+import seedu.scheduler.model.FilePath;
 import seedu.scheduler.model.Model;
 import seedu.scheduler.model.ModelManager;
 import seedu.scheduler.model.person.DefaultValues;
@@ -16,6 +17,8 @@ import seedu.scheduler.model.person.Interviewee;
 import seedu.scheduler.model.person.Interviewer;
 import seedu.scheduler.model.person.Name;
 import seedu.scheduler.model.person.Phone;
+import seedu.scheduler.model.person.Role;
+import seedu.scheduler.model.person.RoleType;
 import seedu.scheduler.model.person.Slot;
 import seedu.scheduler.testutil.SampleInterviewee;
 import seedu.scheduler.testutil.SampleInterviewer;
@@ -30,13 +33,15 @@ public class ImportCommandTest {
     private static final String INTERVIEWEE_FILE_PATH = "src/test/data/ImportsTest/IntervieweeTestData.csv";
     private static final String INTERVIEWER = "interviewer";
     private static final String INTERVIEWEE = "interviewee";
+
     private Model model = new ModelManager();
 
     // ===================================== Interviewers ==============================================
 
     @Test
     public void interviewerImportCommand_success() {
-        ImportCommand importCommand = new ImportCommand(INTERVIEWER + " " + INTERVIEWER_FILE_PATH);
+        ImportCommand importCommand = new ImportCommand(new Role(INTERVIEWER),
+                new FilePath(INTERVIEWER_FILE_PATH));
         CommandResult expectedCommandResult = new CommandResult(ImportCommand.SUCCESS_MESSAGE, false, false);
         Model expectedModel = new ModelManager();
         for (Interviewer interviewer: SampleInterviewer.getSampleListOfInterviewers()) {
@@ -45,29 +50,19 @@ public class ImportCommandTest {
         assertCommandSuccess(importCommand, model, expectedCommandResult, expectedModel);
     }
 
-    @Test
-    public void interviewerImportCommand_throwsCommandException() {
-        ImportCommand importCommandFailure = new ImportCommand(INTERVIEWER + " not a valid file");
-        assertCommandFailure(importCommandFailure, model, ImportCommand.FILE_DOES_NOT_EXIST);
-    }
 
     // ===================================== Interviewees ==============================================
 
     @Test
     public void intervieweeImportCommand_success() {
-        ImportCommand importCommand = new ImportCommand(INTERVIEWEE + " " + INTERVIEWEE_FILE_PATH);
+        ImportCommand importCommand = new ImportCommand(new Role(INTERVIEWEE),
+                new FilePath(INTERVIEWEE_FILE_PATH));
         CommandResult expectedCommandResult = new CommandResult(ImportCommand.SUCCESS_MESSAGE, false, false);
         Model expectedModel = new ModelManager();
         for (Interviewee interviewee: SampleInterviewee.getSampleIntervieweeList()) {
             expectedModel.addInterviewee(interviewee);
         }
         assertCommandSuccess(importCommand, model, expectedCommandResult, expectedModel);
-    }
-
-    @Test
-    public void intervieweeImportCommand_throwsCommandException() {
-        ImportCommand importCommandFailure = new ImportCommand(INTERVIEWEE + " not a valid file");
-        assertCommandFailure(importCommandFailure, model, ImportCommand.FILE_DOES_NOT_EXIST);
     }
 
 }

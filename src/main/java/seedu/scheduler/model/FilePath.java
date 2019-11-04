@@ -24,11 +24,7 @@ public class FilePath {
     public static boolean isValidFilePath(String filePath) {
         String[] parts = filePath.split("\\.");
         try {
-            if (exists(filePath)) {
-                return parts[1].equals(FILE_EXTENSION);
-            } else {
-                return false;
-            }
+            return parts[parts.length - 1].equals(FILE_EXTENSION) && !parts[parts.length-2].equals("");
         } catch (ArrayIndexOutOfBoundsException e) {
             return false;
         }
@@ -38,8 +34,8 @@ public class FilePath {
      * Checks if file exists.
      * @return boolean true if file exists, false otherwise
      */
-    private static boolean exists(String filePath) {
-        File file = new File(filePath);
+    public boolean exists() {
+        File file = new File(this.getValue());
         return file.exists();
     }
 

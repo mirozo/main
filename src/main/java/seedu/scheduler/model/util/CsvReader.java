@@ -19,7 +19,7 @@ import seedu.scheduler.model.person.Phone;
 import seedu.scheduler.model.person.Slot;
 
 /**
- * Helper class to read .csv files (Comma separated values).
+ * Helper class to read from .csv(Comma separated values) files .
  */
 public class CsvReader {
     private String filePath;

@@ -27,7 +27,9 @@ public class ImportCommandParser implements Parser<ImportCommand> {
         }
         Role type = ParserUtil.parseRole(argMultimap.getPreamble());
         FilePath file = ParserUtil.parseFilePath(argMultimap.getValue(PREFIX_FILE_PATH).get());
-
+        if (!file.exists()) {
+            throw new ParseException(ImportCommand.FILE_DOES_NOT_EXIST);
+        }
         return new ImportCommand(type, file);
     }
 }
