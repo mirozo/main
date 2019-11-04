@@ -7,7 +7,7 @@ import static seedu.scheduler.commons.util.AppUtil.checkArgument;
 
 public class FilePath {
     public static final String MESSAGE_CONSTRAINTS =
-            "File paths must be a valid file with .csv extension";
+            "File path is invalid. It must lead to a valid file with .csv extension.";
     public static final String FILE_EXTENSION = "csv";
     public final String value;
 
@@ -22,10 +22,14 @@ public class FilePath {
     }
 
     public static boolean isValidFilePath(String filePath) {
-        String[] parts = filePath.split(".");
-        if (exists(filePath)) {
-            return parts[1].equals(FILE_EXTENSION);
-        } else {
+        String[] parts = filePath.split("\\.");
+        try {
+            if (exists(filePath)) {
+                return parts[1].equals(FILE_EXTENSION);
+            } else {
+                return false;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
             return false;
         }
     }

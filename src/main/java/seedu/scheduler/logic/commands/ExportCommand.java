@@ -1,22 +1,32 @@
 package seedu.scheduler.logic.commands;
 
+import seedu.scheduler.logic.commands.exceptions.CommandException;
+import seedu.scheduler.model.FilePath;
 import seedu.scheduler.model.Model;
 import seedu.scheduler.model.util.CsvWriter;
 
+import java.io.IOException;
+
 public class ExportCommand extends Command {
     public static final String COMMAND_WORD = "export";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": export schedules to specified .csv file"
-            + "Example: " + COMMAND_WORD + "<FILE_NAME.csv>";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": export schedules to specified .csv file. \n"
+            + "Example: " + COMMAND_WORD + "<FULL_FILE_PATH>";
     public static final String SUCCESS_MESSAGE = "Data exported successfully.";
+    public static final String ERROR_MESSAGE = "Could not write to file.";
 
-    private String destinationFile;
+    private FilePath destinationFile;
 
-    public ExportCommand(String args) {
-        this.destinationFile = args;
+    public ExportCommand(FilePath file) {
+        this.destinationFile = file;
     }
 
-    public CommandResult execute(Model model) {
-        CsvWriter writer = new CsvWriter(destinationFile, model);
-
+    public CommandResult execute(Model model) throws CommandException {
+        try {
+            CsvWriter writer = new CsvWriter(destinationFile.getValue(), model);
+            writer.writeSchedulesToFile();
+            return new CommandResult(SUCCESS_MESSAGE);
+        } catch (IOException ioe) {
+            throw new CommandException(ERROR_MESSAGE, ioe);
+        }
     }
 }
