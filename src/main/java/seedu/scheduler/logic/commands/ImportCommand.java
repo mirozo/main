@@ -10,9 +10,12 @@ import java.util.logging.Logger;
 
 import seedu.scheduler.commons.core.LogsCenter;
 import seedu.scheduler.logic.commands.exceptions.CommandException;
+import seedu.scheduler.model.FilePath;
 import seedu.scheduler.model.Model;
 import seedu.scheduler.model.person.Interviewee;
 import seedu.scheduler.model.person.Interviewer;
+import seedu.scheduler.model.person.Role;
+import seedu.scheduler.model.person.RoleType;
 import seedu.scheduler.model.person.exceptions.DuplicatePersonException;
 import seedu.scheduler.model.util.CsvReader;
 
@@ -37,21 +40,20 @@ public class ImportCommand extends Command {
     public static final String DATE_FORMAT_ERROR_MESSAGE = "Error in data formatting: ";
     public static final Logger logger = LogsCenter.getLogger(ImportCommand.class);
 
-    private String filePath;
-    private String type;
+    private FilePath filePath;
+    private Role type;
 
-    public ImportCommand(String args) {
-        String[] strings = args.split(" ");
-        this.type = strings[0];
-        this.filePath = strings[1];
+    public ImportCommand(Role type, FilePath filePath) {
+        this.type = type;
+        this.filePath = filePath;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
 
         try {
-            if (this.type.equals("interviewer")) {
-                CsvReader csvReader = new CsvReader(filePath);
+            if (type.getRole().equals(RoleType.INTERVIEWER)) {
+                CsvReader csvReader = new CsvReader(filePath.getValue());
                 logger.log(Level.INFO, "Starts reading .csv file");
                 ArrayList<Interviewer> interviewers = csvReader.readInterviewers();
                 logger.log(Level.INFO, "Finished reading .csv file");
@@ -60,8 +62,8 @@ public class ImportCommand extends Command {
                     model.addInterviewer(interviewer);
                 }
                 return new CommandResult(SUCCESS_MESSAGE, false, false);
-            } else if (this.type.equals("interviewee")) {
-                CsvReader csvReader = new CsvReader(filePath);
+            } else if (type.getRole().equals(RoleType.INTERVIEWEE)) {
+                CsvReader csvReader = new CsvReader(filePath.getValue());
                 logger.log(Level.INFO, "Starts reading .csv file");
                 ArrayList<Interviewee> interviewees = csvReader.readInterviewees();
                 logger.log(Level.INFO, "Finished reading .csv file");

@@ -2,9 +2,14 @@ package seedu.scheduler.logic.parser;
 
 import static seedu.scheduler.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.scheduler.logic.commands.ImportCommand.MESSAGE_USAGE;
+import static seedu.scheduler.logic.parser.CliSyntax.PREFIX_FILE_PATH;
+import static seedu.scheduler.logic.parser.CliSyntax.PREFIX_ROLE;
 
 import seedu.scheduler.logic.commands.ImportCommand;
 import seedu.scheduler.logic.parser.exceptions.ParseException;
+import seedu.scheduler.model.FilePath;
+import seedu.scheduler.model.person.Role;
+import seedu.scheduler.model.person.RoleType;
 
 /**
  * Parser class for ImportCommand.
@@ -17,16 +22,14 @@ public class ImportCommandParser implements Parser<ImportCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public ImportCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_FILE_PATH);
+
+        if (argMultimap.getValue(PREFIX_FILE_PATH).isEmpty() || argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         }
-        String[] strings = trimmedArgs.split(" ");
-        if (strings.length != 2) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
-        }
-        return new ImportCommand(trimmedArgs);
+        Role type = ParserUtil.parseRole(argMultimap.getPreamble());
+        FilePath file = ParserUtil.parseFilePath(argMultimap.getValue(PREFIX_FILE_PATH).get());
+
+        return new ImportCommand(type, file);
     }
 }

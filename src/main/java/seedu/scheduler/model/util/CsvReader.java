@@ -32,14 +32,6 @@ public class CsvReader {
         this.filePath = filePath;
     }
 
-    /**
-     * Checks if file exists.
-     * @return boolean true if file exists, false otherwise
-     */
-    private boolean fileExists() {
-        File file = new File(this.filePath);
-        return file.exists();
-    }
 
     // ===================================== Interviewers ==============================================
 

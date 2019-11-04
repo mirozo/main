@@ -12,6 +12,7 @@ import seedu.scheduler.commons.core.Messages;
 import seedu.scheduler.commons.core.index.Index;
 import seedu.scheduler.commons.util.StringUtil;
 import seedu.scheduler.logic.parser.exceptions.ParseException;
+import seedu.scheduler.model.FilePath;
 import seedu.scheduler.model.person.Department;
 import seedu.scheduler.model.person.Email;
 import seedu.scheduler.model.person.Faculty;
@@ -39,6 +40,15 @@ public class ParserUtil {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
+    }
+
+    public static FilePath parseFilePath(String filePath) throws ParseException {
+        requireNonNull(filePath);
+        String trimmedFilePath = filePath.trim();
+        if (!FilePath.isValidFilePath(trimmedFilePath)) {
+            throw new ParseException(Role.MESSAGE_CONSTRAINTS);
+        }
+        return new FilePath(trimmedFilePath);
     }
 
     /**
