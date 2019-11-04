@@ -1,11 +1,15 @@
 package seedu.scheduler.logic.commands;
 
+import java.io.IOException;
+
 import seedu.scheduler.logic.commands.exceptions.CommandException;
 import seedu.scheduler.model.FilePath;
 import seedu.scheduler.model.Model;
 import seedu.scheduler.model.util.CsvWriter;
 
-import java.io.IOException;
+/**
+ * Exports schedules to target .csv file.
+ */
 
 public class ExportCommand extends Command {
     public static final String COMMAND_WORD = "export";
@@ -18,10 +22,15 @@ public class ExportCommand extends Command {
 
     private FilePath destinationFile;
 
+    /**
+     * Constructor for ExportCommand.
+     * @param file destination file.
+     */
     public ExportCommand(FilePath file) {
         this.destinationFile = file;
     }
 
+    @Override
     public CommandResult execute(Model model) throws CommandException {
         try {
             if (!model.isScheduled()) {

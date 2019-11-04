@@ -32,9 +32,9 @@ public class SampleSchedules {
     private static String[][] sampleAvailabilityTable2 =
             new String[][]{
                     {"10/10/2019", "Department A - Person A", "Department B - Person B", "Department C - Person C",
-                            "Department D - Person D", "Department E - Person E", "Department F - Person F",
-                            "Department G - Person G", "Department H - Person H", "Department I - Person I",
-                            "Department J - Person J"},
+                     "Department D - Person D", "Department E - Person E", "Department F - Person F",
+                     "Department G - Person G", "Department H - Person H", "Department I - Person I",
+                     "Department J - Person J"},
                     {"10:00-10:30", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
                     {"10:30-11:00", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
                     {"11:00-11:30", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},

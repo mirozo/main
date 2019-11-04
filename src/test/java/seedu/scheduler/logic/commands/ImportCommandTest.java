@@ -1,32 +1,16 @@
 package seedu.scheduler.logic.commands;
-import static seedu.scheduler.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.scheduler.logic.commands.CommandTestUtil.assertCommandSuccess;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.scheduler.commons.core.Messages;
 import seedu.scheduler.model.FilePath;
 import seedu.scheduler.model.Model;
 import seedu.scheduler.model.ModelManager;
-import seedu.scheduler.model.person.DefaultValues;
-import seedu.scheduler.model.person.Department;
-import seedu.scheduler.model.person.Email;
-import seedu.scheduler.model.person.Emails;
-import seedu.scheduler.model.person.Faculty;
 import seedu.scheduler.model.person.Interviewee;
 import seedu.scheduler.model.person.Interviewer;
-import seedu.scheduler.model.person.Name;
-import seedu.scheduler.model.person.Phone;
 import seedu.scheduler.model.person.Role;
-import seedu.scheduler.model.person.RoleType;
-import seedu.scheduler.model.person.Slot;
 import seedu.scheduler.testutil.SampleInterviewee;
 import seedu.scheduler.testutil.SampleInterviewer;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 
 public class ImportCommandTest {
     private static final String INTERVIEWER_FILE_PATH = "src/test/data/ImportsTest/InterviewerTestData.csv";

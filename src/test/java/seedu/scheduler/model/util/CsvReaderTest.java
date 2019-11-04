@@ -1,6 +1,14 @@
 package seedu.scheduler.model.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
+
 import seedu.scheduler.model.person.DefaultValues;
 import seedu.scheduler.model.person.Department;
 import seedu.scheduler.model.person.Email;
@@ -12,31 +20,26 @@ import seedu.scheduler.model.person.Name;
 import seedu.scheduler.model.person.Phone;
 import seedu.scheduler.model.person.Slot;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CsvReaderTest {
-    private static String sampleCorrectHeader = "11/10/2019,Department A - Person A,Department B - Person B,"
+    private static final String INTERVIEWER_FILEPATH_SUCCESS = "src/test/data/ImportsTest/InterviewerTestData.csv";
+    private static final String INTERVIEWEE_FILEPATH_SUCCESS = "src/test/data/ImportsTest/IntervieweeTestData.csv";
+    private static final String SAMPLE_CORRECT_HEADER = "11/10/2019,Department A - Person A,Department B - Person B,"
             + "Department C - Person C,Department D - Person D,Department E - Person E,Department F - Person F";
-    private static String[] alphabets = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
-    private static String rowOfIntervieweeData = "John Doe,john@u.nus.edu,john@hotmail.com,99999999,NUS,1,publicity,"
-            + "\"09/10/2019 18:30-19:00, 10/10/2019 19:00-19:30, 11/10/2019 20:00-20:30\"";
-    private static String interviewerFileName_success = "src/test/data/ImportsTest/InterviewerTestData.csv";
-    private static String intervieweeFileName_success = "src/test/data/ImportsTest/IntervieweeTestData.csv";
+    private static final String[] ALPHABETS = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+    private static final String ROW_OF_INTERVIEWEE_DATA = "John Doe,john@u.nus.edu,john@hotmail.com,99999999,NUS,1,"
+            + "publicity,\"09/10/2019 18:30-19:00, 10/10/2019 19:00-19:30, 11/10/2019 20:00-20:30\"";
+
 
     // ===================================== Interviewers ==============================================
     @Test
     public void getInterviewersFromHeader_success() {
         ArrayList<Interviewer> interviewersFromCorrectSample =
-                CsvReader.getInterviewersFromHeader(sampleCorrectHeader.split(","));
+                CsvReader.getInterviewersFromHeader(SAMPLE_CORRECT_HEADER.split(","));
         ArrayList<Interviewer> expectedInterviewers = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            Name interviewerName = new Name("Person " + alphabets[i]);
-            Department interviewerDepartment = new Department("Department " + alphabets[i]);
+            Name interviewerName = new Name("Person " + ALPHABETS[i]);
+            Department interviewerDepartment = new Department("Department " + ALPHABETS[i]);
             Interviewer.InterviewerBuilder interviewerBuilder =
                     new Interviewer.InterviewerBuilder(interviewerName,
                             DefaultValues.DEFAULT_PHONE, DefaultValues.DEFAULT_TAGS);
@@ -49,13 +52,13 @@ public class CsvReaderTest {
 
     @Test
     public void readInterviewers_success() throws IOException {
-        CsvReader reader = new CsvReader(interviewerFileName_success);
+        CsvReader reader = new CsvReader(INTERVIEWER_FILEPATH_SUCCESS);
         ArrayList<Interviewer> testOutput = reader.readInterviewers();
 
         ArrayList<Interviewer> expectedInterviewers = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            Name interviewerName = new Name("Person " + alphabets[i]);
-            Department interviewerDepartment = new Department("Department " + alphabets[i]);
+            Name interviewerName = new Name("Person " + ALPHABETS[i]);
+            Department interviewerDepartment = new Department("Department " + ALPHABETS[i]);
             Interviewer.InterviewerBuilder interviewerBuilder =
                     new Interviewer.InterviewerBuilder(interviewerName,
                             DefaultValues.DEFAULT_PHONE, DefaultValues.DEFAULT_TAGS);
@@ -76,14 +79,14 @@ public class CsvReaderTest {
 
     @Test
     public void readInterviewee_success() throws IOException {
-        CsvReader reader = new CsvReader(intervieweeFileName_success);
+        CsvReader reader = new CsvReader(INTERVIEWEE_FILEPATH_SUCCESS);
         ArrayList<Interviewee> testOutput = reader.readInterviewees();
         ArrayList<Interviewee> expectedInterviewees = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            Name name = new Name("John " + alphabets[i]);
+            Name name = new Name("John " + ALPHABETS[i]);
             Emails emails = new Emails(new HashMap<>());
-            emails.addNusEmail(new Email("john" + alphabets[i] + "@u.nus.edu"));
-            emails.addPersonalEmail(new Email("john" + alphabets[i] + "@hotmail.com"));
+            emails.addNusEmail(new Email("john" + ALPHABETS[i] + "@u.nus.edu"));
+            emails.addPersonalEmail(new Email("john" + ALPHABETS[i] + "@hotmail.com"));
             Phone phone = new Phone("9999999" + i);
             Faculty faculty = new Faculty("NUS");
             Integer yearOfStudy = 1;
@@ -107,7 +110,7 @@ public class CsvReaderTest {
 
     @Test
     public void getAllSlots_success() {
-        List<Slot> testOutput = CsvReader.getAllSlots(rowOfIntervieweeData.split(","));
+        List<Slot> testOutput = CsvReader.getAllSlots(ROW_OF_INTERVIEWEE_DATA.split(","));
         List<Slot> expectedSlots = new ArrayList<>();
         expectedSlots.add(Slot.fromString("09/10/2019 18:30-19:00"));
         expectedSlots.add(Slot.fromString("10/10/2019 19:00-19:30"));

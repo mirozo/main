@@ -1,12 +1,12 @@
 package seedu.scheduler.model.util;
 
-import javafx.collections.ObservableList;
-import seedu.scheduler.model.Model;
-import seedu.scheduler.model.Schedule;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+
+import javafx.collections.ObservableList;
+import seedu.scheduler.model.Model;
+import seedu.scheduler.model.Schedule;
 
 /**
  * Helper class to write to .csv(Comma-Separated Values) files.

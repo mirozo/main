@@ -1,10 +1,13 @@
 package seedu.scheduler.model;
 
-import java.io.File;
-
 import static java.util.Objects.requireNonNull;
 import static seedu.scheduler.commons.util.AppUtil.checkArgument;
 
+import java.io.File;
+
+/**
+ * Encapsulates a String representing the path of a file.
+ */
 public class FilePath {
     public static final String MESSAGE_CONSTRAINTS =
             "File path is invalid. It must lead to a valid file with .csv extension.";
@@ -21,10 +24,15 @@ public class FilePath {
         return value;
     }
 
+    /**
+     * Checks if {@code filePath} is valid.
+     * @param filePath user input file path.
+     * @return True if is valid, false otherwise.
+     */
     public static boolean isValidFilePath(String filePath) {
         String[] parts = filePath.split("\\.");
         try {
-            return parts[parts.length - 1].equals(FILE_EXTENSION) && !parts[parts.length-2].equals("");
+            return parts[parts.length - 1].equals(FILE_EXTENSION) && !parts[parts.length - 2].equals("");
         } catch (ArrayIndexOutOfBoundsException e) {
             return false;
         }

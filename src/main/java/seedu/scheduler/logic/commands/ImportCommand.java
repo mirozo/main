@@ -38,7 +38,7 @@ public class ImportCommand extends Command {
             + "in storage. Please type 'clear'(without the quote) to remove those entries before running the import "
             + "command.";
     public static final String DATE_FORMAT_ERROR_MESSAGE = "Error in data formatting: ";
-    public static final Logger logger = LogsCenter.getLogger(ImportCommand.class);
+    private static final Logger logger = LogsCenter.getLogger(ImportCommand.class);
 
     private FilePath filePath;
     private Role type;

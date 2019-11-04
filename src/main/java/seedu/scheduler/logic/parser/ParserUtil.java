@@ -42,6 +42,11 @@ public class ParserUtil {
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
     }
 
+    /**
+     * Parses {@code filePath} into an {@code FilePath} and returns it. Leading and trailing whitespaces will be
+     * trimmed.
+     * @throws ParseException if the specified filePath is invalid.
+     */
     public static FilePath parseFilePath(String filePath) throws ParseException {
         requireNonNull(filePath);
         String trimmedFilePath = filePath.trim();

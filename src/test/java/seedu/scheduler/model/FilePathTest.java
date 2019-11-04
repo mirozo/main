@@ -1,10 +1,10 @@
 package seedu.scheduler.model;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.scheduler.testutil.Assert.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 public class FilePathTest {
 
