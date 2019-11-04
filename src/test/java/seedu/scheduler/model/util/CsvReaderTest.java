@@ -60,7 +60,13 @@ public class CsvReaderTest {
                     new Interviewer.InterviewerBuilder(interviewerName,
                             DefaultValues.DEFAULT_PHONE, DefaultValues.DEFAULT_TAGS);
             interviewerBuilder.department(interviewerDepartment);
-            interviewerBuilder.availabilities(new ArrayList<>());
+            if (i == 0) {
+                ArrayList<Slot> slots = new ArrayList<>();
+                slots.add(Slot.fromString("10/10/2019 18:00-18:30"));
+                interviewerBuilder.availabilities(slots);
+            } else {
+                interviewerBuilder.availabilities(new ArrayList<>());
+            }
             expectedInterviewers.add(interviewerBuilder.build());
         }
         assertEquals(expectedInterviewers, testOutput);

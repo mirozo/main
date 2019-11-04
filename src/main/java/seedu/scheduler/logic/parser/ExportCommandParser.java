@@ -11,9 +11,9 @@ import static seedu.scheduler.logic.parser.CliSyntax.PREFIX_FILE_PATH;
 public class ExportCommandParser implements Parser<ExportCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the ImportCommand
-     * and returns a ImportCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+     * Parses the given {@code String} of arguments in the context of the ExportCommand
+     * and returns a ExportCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format.
      */
     public ExportCommand parse(String args) throws ParseException{
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_FILE_PATH);
