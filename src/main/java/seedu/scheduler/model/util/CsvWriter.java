@@ -24,7 +24,7 @@ public class CsvWriter {
             ObservableList<ObservableList<String>> rows = schedule.getObservableList();
             for (ObservableList<String> rowData: rows) {
                 csvWriter.append(String.join(",", rowData));
-                csvWriter.append("\n")
+                csvWriter.append("\n");
             }
             csvWriter.append("\n").append("\n");
         }

@@ -102,8 +102,6 @@ public class CsvReader {
         return Integer.parseInt(trimmedString);
     }
 
-
-
     /**
      * Gets the interviewer's name from a String.
      * @param cell String that contains interviewer's name
