@@ -25,12 +25,10 @@ public class ExportCommandParserTest {
     @Test
     public void parse_exportCommand_success() {
         FilePath validFilePath = new FilePath(VALID_FILE_PATH);
-        assertParseSuccess(parser, FILE_PATH_DESC,
-                new ExportCommand(validFilePath));
+        assertParseSuccess(parser, FILE_PATH_DESC, new ExportCommand(validFilePath));
 
         FilePath invalidFilePath = new FilePath(INVALID_FILE_PATH);
-        assertParseSuccess(parser, INVALID_FILE_PATH_DESC,
-                new ExportCommand(invalidFilePath));
+        assertParseSuccess(parser, INVALID_FILE_PATH_DESC, new ExportCommand(invalidFilePath));
     }
 
 }

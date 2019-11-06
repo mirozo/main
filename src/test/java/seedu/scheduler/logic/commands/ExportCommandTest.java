@@ -10,8 +10,6 @@ import seedu.scheduler.model.Model;
 import seedu.scheduler.model.ModelManager;
 
 
-
-
 public class ExportCommandTest {
     public static final String DESTINATION_FILE = "src/test/data/ImportsTest/storage.csv";
     private static Model model = new ModelManager();

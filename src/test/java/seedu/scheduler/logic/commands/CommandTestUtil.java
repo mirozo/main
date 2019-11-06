@@ -55,7 +55,7 @@ public class CommandTestUtil {
     public static final String VALID_NUS_WORK_EMAIL_AMY = "amy_infamy@u.nus.edu";
     public static final String VALID_PERSONAL_EMAIL_BOB = "bob_cat@gmail.com";
     public static final String VALID_NUS_WORK_EMAIL_BOB = "bob_cat@u.nus.edu";
-    public static final String VALID_FILE_PATH = "C:\\Users\\johnn\\Desktop\\test.csv";
+    public static final String VALID_FILE_PATH = "src/test/data/ImportsTest/InterviewerTestData.csv";
 
     public static final String ROLE_DESC_AMY_INTVR = " " + PREFIX_ROLE + VALID_ROLE_AMY_INTVR;
     public static final String ROLE_DESC_BOB_INTVE = " " + PREFIX_ROLE + VALID_ROLE_BOB_INTVE;
