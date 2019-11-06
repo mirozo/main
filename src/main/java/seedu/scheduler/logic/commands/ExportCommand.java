@@ -7,6 +7,8 @@ import seedu.scheduler.model.FilePath;
 import seedu.scheduler.model.Model;
 import seedu.scheduler.model.util.CsvWriter;
 
+import static seedu.scheduler.logic.parser.CliSyntax.PREFIX_FILE_PATH;
+
 /**
  * Exports schedules to target .csv file.
  */
@@ -14,7 +16,9 @@ import seedu.scheduler.model.util.CsvWriter;
 public class ExportCommand extends Command {
     public static final String COMMAND_WORD = "export";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": export schedules to specified .csv file. \n"
-            + "Example: " + COMMAND_WORD + "<FULL_FILE_PATH>";
+            + "Example: "
+            + COMMAND_WORD
+            + " " + PREFIX_FILE_PATH + " <FULL_FILE_PATH>";
     public static final String SUCCESS_MESSAGE = "Data exported successfully.";
     public static final String NOT_SCHEDULED_ERROR = "Interview slots have not been scheduled. Please ensure that "
             + "data has been imported and 'schedule' command has been ran.";
@@ -42,5 +46,12 @@ public class ExportCommand extends Command {
         } catch (IOException ioe) {
             throw new CommandException(ERROR_MESSAGE, ioe);
         }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ExportCommand // instanceof handles nulls
+                && destinationFile.equals(((ExportCommand) other).destinationFile));
     }
 }
