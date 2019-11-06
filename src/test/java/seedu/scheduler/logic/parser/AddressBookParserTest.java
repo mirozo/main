@@ -164,18 +164,18 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_export() throws Exception {
         assertTrue(parser.parseCommand(ExportCommand.COMMAND_WORD
-                        + " " + PREFIX_FILE_PATH + "src/test/data/ImportsTest/InterviewerTestData.csv")
+                        + " " + PREFIX_FILE_PATH + "src/test/data/ImportsTest/storage.csv")
                 instanceof ExportCommand);
         //File does not exist, still works, should create a new file.
         assertTrue(parser.parseCommand(
                 ExportCommand.COMMAND_WORD
-                        + " " + PREFIX_FILE_PATH + "src/test/data/ImportsTest/InterviewerInvalidTestData.csv")
+                        + " " + PREFIX_FILE_PATH + "src/test/data/ImportsTest/InvalidTestData.csv")
                 instanceof ExportCommand);
         //No prefix
         assertThrows(ParseException.class,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE), ()
                 -> parser.parseCommand(ExportCommand.COMMAND_WORD
-                + " src/test/data/ImportsTest/InterviewerTestData.csv"));
+                + " src/test/data/ImportsTest/storage.csv"));
         //Only command word
         assertThrows(ParseException.class,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE), ()
