@@ -1,17 +1,18 @@
 package seedu.scheduler.model.util;
 
-import org.junit.jupiter.api.Test;
-import seedu.scheduler.model.Model;
-import seedu.scheduler.model.ModelManager;
-import seedu.scheduler.model.Schedule;
-import seedu.scheduler.testutil.SampleSchedules;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.scheduler.logic.commands.CommandTestUtil.VALID_FILE_PATH;
+import static seedu.scheduler.logic.commands.CommandTestUtil.getExpectedExportedData;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.scheduler.logic.commands.CommandTestUtil.VALID_FILE_PATH;
-import static seedu.scheduler.logic.commands.CommandTestUtil.getExpectedExportedData;
+import org.junit.jupiter.api.Test;
+
+import seedu.scheduler.model.Model;
+import seedu.scheduler.model.ModelManager;
+import seedu.scheduler.model.Schedule;
+import seedu.scheduler.testutil.SampleSchedules;
 
 public class CsvWriterTest {
     private static Model model = new ModelManager();

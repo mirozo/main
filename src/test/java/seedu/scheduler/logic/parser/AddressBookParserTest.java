@@ -118,30 +118,36 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_ImportCommandParser() throws Exception {
-        assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE), ()
+    public void parseCommand_import() throws Exception {
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE), ()
                 -> parser.parseCommand(ImportCommand.COMMAND_WORD));
         //No File Path, interviewer
-        assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE), ()
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE), ()
                 -> parser.parseCommand(ImportCommand.COMMAND_WORD + " interviewer"));
         //No File Path, interviewee
-        assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE), ()
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE), ()
                 -> parser.parseCommand(ImportCommand.COMMAND_WORD + " interviewee"));
         //No prefix, interviewee
-        assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE), ()
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE), ()
                 -> parser.parseCommand(ImportCommand.COMMAND_WORD
                 + " interviewer src/test/data/ImportsTest/InterviewerTestData.csv"));
         //No prefix, interviewee
-        assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE), ()
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE), ()
                 -> parser.parseCommand(ImportCommand.COMMAND_WORD
                 + " interviewee src/test/data/ImportsTest/InterviewerTestData.csv"));
         //No type
-        assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE), ()
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE), ()
                 -> parser.parseCommand(ImportCommand.COMMAND_WORD
                 + " " + PREFIX_FILE_PATH + "src/test/data/ImportsTest/InterviewerTestData.csv"));
         //File does not exist
-        assertThrows(ParseException.class, FILE_DOES_NOT_EXIST, ()
-                -> parser.parseCommand(ImportCommand.COMMAND_WORD
+        assertThrows(ParseException.class,
+                FILE_DOES_NOT_EXIST, () -> parser.parseCommand(ImportCommand.COMMAND_WORD
                 + " interviewer " + PREFIX_FILE_PATH + "src/test/data/ImportsTest/InterviewerInvalidTestData.csv"));
         //Success
         assertTrue(parser.parseCommand(
@@ -156,7 +162,7 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_ExportCommandParser() throws Exception {
+    public void parseCommand_export() throws Exception {
         assertTrue(parser.parseCommand(ExportCommand.COMMAND_WORD
                         + " " + PREFIX_FILE_PATH + "src/test/data/ImportsTest/InterviewerTestData.csv")
                 instanceof ExportCommand);
@@ -166,11 +172,13 @@ public class AddressBookParserTest {
                         + " " + PREFIX_FILE_PATH + "src/test/data/ImportsTest/InterviewerInvalidTestData.csv")
                 instanceof ExportCommand);
         //No prefix
-        assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE), ()
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE), ()
                 -> parser.parseCommand(ExportCommand.COMMAND_WORD
                 + " src/test/data/ImportsTest/InterviewerTestData.csv"));
         //Only command word
-        assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE), ()
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE), ()
                 -> parser.parseCommand(ExportCommand.COMMAND_WORD));
     }
 
@@ -182,6 +190,7 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_unknownCommand_throwsParseException() {
-        assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
+        assertThrows(ParseException.class,
+                MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
     }
 }

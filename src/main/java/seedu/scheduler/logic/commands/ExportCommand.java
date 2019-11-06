@@ -1,5 +1,7 @@
 package seedu.scheduler.logic.commands;
 
+import static seedu.scheduler.logic.parser.CliSyntax.PREFIX_FILE_PATH;
+
 import java.io.IOException;
 
 import seedu.scheduler.logic.commands.exceptions.CommandException;
@@ -7,7 +9,7 @@ import seedu.scheduler.model.FilePath;
 import seedu.scheduler.model.Model;
 import seedu.scheduler.model.util.CsvWriter;
 
-import static seedu.scheduler.logic.parser.CliSyntax.PREFIX_FILE_PATH;
+
 /**
  * Exports schedules to target .csv file.
  */

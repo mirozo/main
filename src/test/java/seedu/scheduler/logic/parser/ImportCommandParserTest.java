@@ -22,7 +22,7 @@ public class ImportCommandParserTest {
     }
 
     @Test
-    public void parse_ImportCommand_success() {
+    public void parse_importCommand_success() {
         Role expectedRole = new Role(VALID_ROLE_AMY_INTVR);
         FilePath expectedFilePath = new FilePath(VALID_FILE_PATH);
         assertParseSuccess(parser, VALID_ROLE_AMY_INTVR + FILE_PATH_DESC,
