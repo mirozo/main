@@ -8,7 +8,6 @@ import seedu.scheduler.model.Model;
 import seedu.scheduler.model.util.CsvWriter;
 
 import static seedu.scheduler.logic.parser.CliSyntax.PREFIX_FILE_PATH;
-
 /**
  * Exports schedules to target .csv file.
  */

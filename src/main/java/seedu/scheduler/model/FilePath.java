@@ -58,4 +58,5 @@ public class FilePath {
                 || (other instanceof FilePath // instanceof handles nulls
                 && value.equals(((FilePath) other).value)); // state check
     }
+
 }
