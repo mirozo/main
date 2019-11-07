@@ -14,6 +14,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -36,6 +38,7 @@ import seedu.scheduler.model.person.Interviewer;
 import seedu.scheduler.model.person.Name;
 import seedu.scheduler.model.person.Slot;
 import seedu.scheduler.model.person.exceptions.PersonNotFoundException;
+import seedu.scheduler.model.util.DateComparator;
 import seedu.scheduler.ui.RefreshListener;
 import seedu.scheduler.ui.TabListener;
 
@@ -263,6 +266,7 @@ public class ModelManager implements Model {
     @Override
     public void setInterviewer(Interviewer target, Interviewer editedTarget) throws PersonNotFoundException {
         interviewerList.setEntity(target, editedTarget);
+        this.updateScheduleList();
     }
 
 
@@ -374,6 +378,7 @@ public class ModelManager implements Model {
             headers.add(stringifyHeadersForTable(name, department));
         }
         ArrayList<String> datesList = new ArrayList<>(dates);
+        datesList.sort(new DateComparator()); //sorts the dates in ascending order
         for (String date: datesList) {
             LinkedList<LinkedList<String>> table = new LinkedList<>();
             LinkedList<String> fullHeader = new LinkedList<>();

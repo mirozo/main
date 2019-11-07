@@ -492,7 +492,7 @@ be updated such that the result is reflected in the displayed interview timetabl
 Format: `schedule`
 
 === Exporting of interview schedule `export`
-Exports the allocated interview schedule timetable to the indicated comma separated values (CSV) file.
+Exports the allocated interview schedule timetable to the specified comma separated values (CSV) file.
 
 Format: `export fp/FILE_PATH`
 
@@ -511,6 +511,7 @@ Exported data format:
 * Each schedule (table) will be separated from the previous with 2 empty lines.
 * Timeslots with "0" indicates that the interviewer is not available for the timeslot.
 Timeslots with "1" indicates that it is an available slot that has not been filled up by an interviewee.
+* Csv file can be converted into an excel file by following this guide - https://www.ablebits.com/office-addins-blog/2014/05/01/convert-csv-excel/.
 
 Constraints:
 
