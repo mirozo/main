@@ -3,6 +3,8 @@ package seedu.scheduler.logic.commands;
 import static seedu.scheduler.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.scheduler.logic.commands.CommandTestUtil.assertCommandSuccess;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.scheduler.model.FilePath;
@@ -10,8 +12,6 @@ import seedu.scheduler.model.Model;
 import seedu.scheduler.model.ModelManager;
 import seedu.scheduler.model.Schedule;
 import seedu.scheduler.model.util.SampleDataUtil;
-
-import java.util.List;
 
 
 public class ExportCommandTest {
