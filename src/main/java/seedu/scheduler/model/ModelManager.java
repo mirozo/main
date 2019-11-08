@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -325,10 +326,15 @@ public class ModelManager implements Model {
         //         .map(Slot::toString)
         //         .reduce((x, y) -> x + ", " + y)
         //         .get();
-        String slots = "01/11/2019 12:00-14:00";
+        Optional<Slot> allocatedSlot = this.getAllocatedSlot(interviewee.getName().toString());
+        String slot = "";
+
+        if (allocatedSlot.isPresent()) {
+            slot = allocatedSlot.get().toString();
+        }
 
         return String.format(EMAIL_MESSAGE_BODY, interviewee.getName(), this.userPrefs.getOrganisation(),
-                slots, this.userPrefs.getInterviewLocation(), this.userPrefs.getEmailAdditionalInformation());
+                slot, this.userPrefs.getInterviewLocation(), this.userPrefs.getEmailAdditionalInformation());
     }
 
     // ================================== Refresh Listener ======================================
@@ -510,6 +516,7 @@ public class ModelManager implements Model {
      */
     @Override
     public List<ObservableList<ObservableList<String>>> getObservableLists() {
+        Collections.sort(schedulesList);
         List<ObservableList<ObservableList<String>>> observableLists = new LinkedList<>();
         for (Schedule schedule : schedulesList) {
             observableLists.add(schedule.getObservableList());
@@ -524,11 +531,13 @@ public class ModelManager implements Model {
      */
     @Override
     public List<Schedule> getSchedulesList() {
+        Collections.sort(schedulesList);
         return schedulesList;
     }
 
     @Override
     public List<List<String>> getTitlesLists() {
+        Collections.sort(schedulesList);
         List<List<String>> titlesLists = new LinkedList<>();
         for (Schedule schedule : schedulesList) {
             titlesLists.add(schedule.getTitles());
