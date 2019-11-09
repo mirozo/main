@@ -55,7 +55,7 @@ public class IntervieweeListPanel extends UiPart<Region> {
         editTableColumn(nameTitle);
         TableColumn<ObservableList<String>, String> phoneTitle =
                 new TableColumn<ObservableList<String>, String>("Phone");
-        phoneTitle.setCellValueFactory(new PropertyValueFactory<ObservableList<String>, String>("phoneTitle"));
+        phoneTitle.setCellValueFactory(new PropertyValueFactory<ObservableList<String>, String>("phone"));
         editTableColumn(phoneTitle);
         TableColumn<ObservableList<String>, String> emailTitle =
                 new TableColumn<ObservableList<String>, String>("Emails");
@@ -89,7 +89,7 @@ public class IntervieweeListPanel extends UiPart<Region> {
         tagTitle.setCellValueFactory(new PropertyValueFactory<ObservableList<String>, String>("Tags"));
         editTableColumn(tagTitle);
 
-        intervieweeTableView.getColumns().addAll(nameTitle, emailTitle, facultyTitle, yearTitle,
+        intervieweeTableView.getColumns().addAll(nameTitle, phoneTitle, emailTitle, facultyTitle, yearTitle,
                 departmentTitle, timeSlotTitle, allocatedTimeTitle, tagTitle);
     }
 
