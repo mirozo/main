@@ -37,12 +37,12 @@ public class IntervieweeListPanel extends UiPart<Region> {
      */
     private void initialise() {
         setTableColumn();
-        this.intervieweeTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         if (this.intervieweeList.isEmpty()) {
             this.intervieweeTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         } else {
-            this.intervieweeTableView.setItems(this.intervieweeList);
+            this.intervieweeTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         }
+        this.intervieweeTableView.setItems(this.intervieweeList);
     }
 
     /**
@@ -99,6 +99,7 @@ public class IntervieweeListPanel extends UiPart<Region> {
      */
     private void editTableColumn(TableColumn tableColumn) {
         tableColumn.setReorderable(false);
+        tableColumn.setSortable(false);
         tableColumn.setMinWidth(80);
     }
 }
