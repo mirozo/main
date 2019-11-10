@@ -145,6 +145,12 @@ public class ImportCommand extends Command {
         }
     }
 
+    /**
+     * Checks imported list of interviewees for duplicate entries by comparing them with the pre-existing list.
+     * @param interviewees Imported list of interviewers
+     * @param modelList Current list of interviewees in the model
+     * @throws DuplicatePersonException when there is a duplicate entry
+     */
     public static void checkForDuplicateIntervieweeEntries(ArrayList<Interviewee> interviewees,
                                                            ObservableList<Interviewee> modelList)
             throws DuplicatePersonException {

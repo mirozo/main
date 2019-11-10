@@ -30,7 +30,6 @@ import javafx.collections.transformation.FilteredList;
 import seedu.scheduler.commons.core.GuiSettings;
 import seedu.scheduler.commons.core.LogsCenter;
 import seedu.scheduler.commons.exceptions.ScheduleException;
-import seedu.scheduler.model.person.Department;
 import seedu.scheduler.model.person.Interviewee;
 import seedu.scheduler.model.person.Interviewer;
 import seedu.scheduler.model.person.Name;
@@ -376,12 +375,7 @@ public class ModelManager implements Model {
                 dates.add(date);
             }
         }
-        ArrayList<String> headers = new ArrayList<>();
-        for (Interviewer interviewer: listOfInterviewers) {
-            Name name = interviewer.getName();
-            Department department = interviewer.getDepartment();
-            headers.add(stringifyHeadersForTable(name, department));
-        }
+        ArrayList<String> headers = interviewerList.getTitlesForSchedule();
         ArrayList<String> datesList = new ArrayList<>(dates);
         datesList.sort(new DateComparator()); //sorts the dates in ascending order
         for (String date: datesList) {
@@ -443,16 +437,6 @@ public class ModelManager implements Model {
         Date currentTimeAsDate = dateFormat.parse(currentTime);
         Date endTimeAsDate = dateFormat.parse(endTime);
         return currentTimeAsDate.after(endTimeAsDate) || currentTimeAsDate.equals(endTimeAsDate);
-    }
-
-    /**
-     * Static method to combine name and department into one string used for headers.
-     * @param name
-     * @param department
-     * @return Header as String
-     */
-    public static String stringifyHeadersForTable(Name name, Department department) {
-        return department.toString() + " - " + name.toString();
     }
 
     /**
