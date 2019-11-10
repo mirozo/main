@@ -537,7 +537,6 @@ image::ReadInterviewersSequenceDiagram.png[]
 `readInterviewees()`: +
 
 * This method is quite straightforward, reading each attribute from the given table into an interviewee object.
-* There can be more than 1 work email or personal email, which are separated by whitespaces in the imported file.
 * There can also be more than 1 preferred timeslot, which are separated by commas in the imported file.
 * The complexity of this method is O(N), where N is the number of interviewees.
 
@@ -552,11 +551,11 @@ as shown in the class diagram below.
 
 image::ScheduleClassDiagram.png[]
 
-The following are the commands that requires the application to update the list
+These are the commands that requires the update of the list
 of schedules - `add`, `delete`, `edit`, `import`, `clear` and `schedule`.
 
 ==== Before Scheduling of Interviews
-Before the `schedule` command is ran, the list of schedules is solely dependent on the InterviewerList, since
+Before the 'schedule' command is ran, the list of schedules is *solely dependent on the InterviewerList*, since
 it is only through the scheduling of interviews that the data in the IntervieweeList is integrated with
 the data of the InterviewerList. Therefore, modification of IntervieweeList will not require changes
 in the list of schedules at this point of time.
