@@ -5,19 +5,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.IntStream;
-
-import seedu.scheduler.commons.core.LogsCenter;
 
 /**
  * Represents the Hopcroft-Karp algorithm which can find the maximum number of matchings between interviewee and
  * interview slots.
 * Crucial assumption: A bipartite graph is given to the algorithm.
  */
-public class HopCroftKarp {
-    private static final Logger logger = LogsCenter.getLogger(HopCroftKarp.class);
-
+public class HopcroftKarp {
     /**
      * intervieweePredecessors -> predecessor of interviewee which is an interview slot matched to it.
      * interviewSlotPredecessors predecessor(s) of interview slots which is interviewee(s) that can match the slot.
@@ -32,7 +27,7 @@ public class HopCroftKarp {
     private boolean[] usedInterviewees;
     private boolean[] usedSlots;
 
-    public HopCroftKarp(BipartiteGraph graph) {
+    public HopcroftKarp(BipartiteGraph graph) {
         this.graph = graph;
     }
 
@@ -42,8 +37,6 @@ public class HopCroftKarp {
      * interviewee and interview slots are tracked inside the given bipartite graph.
      */
     public void execute() {
-        logger.info("Hopcroft Karp algorithm starting...");
-
         if (graph.isEmpty()) {
             return;
         }
@@ -51,16 +44,14 @@ public class HopCroftKarp {
         List<InterviewerSlotVertex> lastLayer = new LinkedList<>();
 
         do {
-            lastLayer = new BfsHopCroftKarp(graph).execute(intervieweePredecessor, interviewSlotPredecessors);
+            lastLayer = new BfsHopcroftKarp(graph).execute(intervieweePredecessor, interviewSlotPredecessors);
             // If augmenting path(s) is found
             if (!lastLayer.isEmpty()) {
-                new DfsHopCroftKarp(graph).execute(lastLayer, intervieweePredecessor, interviewSlotPredecessors,
+                new DfsHopcroftKarp(graph).execute(lastLayer, intervieweePredecessor, interviewSlotPredecessors,
                         usedInterviewees, usedSlots);
             }
             cleanUp();
         } while (!lastLayer.isEmpty()); // while there exists an augmenting path(s)
-
-        logger.info("Hopcroft Karp algorithm terminates");
     }
 
     /**

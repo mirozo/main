@@ -12,9 +12,9 @@ import seedu.scheduler.commons.exceptions.ScheduleException;
 import seedu.scheduler.logic.commands.exceptions.CommandException;
 import seedu.scheduler.logic.graph.BipartiteGraph;
 import seedu.scheduler.logic.graph.BipartiteGraphGenerator;
-import seedu.scheduler.logic.graph.HopCroftKarp;
+import seedu.scheduler.logic.graph.HopcroftKarp;
+import seedu.scheduler.logic.graph.InterviewSlot;
 import seedu.scheduler.logic.graph.IntervieweeVertex;
-import seedu.scheduler.logic.graph.InterviewerSlot;
 import seedu.scheduler.model.Model;
 import seedu.scheduler.model.person.Interviewee;
 import seedu.scheduler.model.person.IntervieweeSlot;
@@ -51,14 +51,10 @@ public class ScheduleCommand extends Command {
             List<Interviewer> interviewers = new ArrayList<>(model.getUnfilteredInterviewerList());
             List<Interviewee> interviewees = new ArrayList<>(model.getUnfilteredIntervieweeList());
 
-            // To ensure fairer scheduling
-            Collections.shuffle(interviewers);
-            Collections.shuffle(interviewees);
-
-            BipartiteGraph graph = new BipartiteGraphGenerator(interviewers, interviewees).generate();
-            HopCroftKarp algorithm = new HopCroftKarp(graph);
+            BipartiteGraph optimumGraph = findOptimumGraph(model, interviewers, interviewees);
+            HopcroftKarp algorithm = new HopcroftKarp(optimumGraph);
             algorithm.execute();
-            assignSlots(graph);
+            assignSlots(optimumGraph);
 
             try {
                 model.updateSchedulesAfterScheduling();
@@ -66,7 +62,7 @@ public class ScheduleCommand extends Command {
                 throw new CommandException("Error occurs!", e);
             }
 
-            feedback = generateResultMessage(graph);
+            feedback = generateResultMessage(optimumGraph);
         }
 
         logger.info("Finish scheduling interviews");
@@ -84,22 +80,57 @@ public class ScheduleCommand extends Command {
      * Attaches the allocated interview slot the corresponding interviewee and also to the interviewer (after running
      * the HopCroftKarp algorithm). Returns true if at least one interviewee is allocated with a slot.
      */
-    private void assignSlots(BipartiteGraph graph) {
+    private int assignSlots(BipartiteGraph graph) {
         int numInterviewees = graph.getNumInterviewees();
+        int numMatching = 0;
 
         for (int i = 0; i < numInterviewees; i++) {
             IntervieweeVertex intervieweeVertex = graph.getIntervieweePair(i).getHead();
 
             if (intervieweeVertex.isMatched()) {
                 Interviewee interviewee = intervieweeVertex.getItem();
-                InterviewerSlot interviewerSlot = intervieweeVertex.getPartner().getItem();
-                Interviewer interviewer = interviewerSlot.getInterviewer();
-                Slot slot = interviewerSlot.getSlot();
+                InterviewSlot interviewSlot = intervieweeVertex.getPartner().getItem();
+                Interviewer interviewer = interviewSlot.getInterviewer();
+                Slot slot = interviewSlot.getSlot();
 
                 interviewee.setAllocatedSlot(slot);
                 interviewer.addAllocatedSlot(new IntervieweeSlot(interviewee, slot));
+                numMatching++;
             }
         }
+
+        return numMatching;
+    }
+
+    /**
+     * Finds the optimum graph to maximise the number of matching between interviewee and interview slots.
+     */
+    private BipartiteGraph findOptimumGraph(Model model, List<Interviewer> interviewers,
+                                            List<Interviewee> interviewees) {
+        BipartiteGraph optimumGraph = null;
+
+        int maxMatching = -1;
+        for (int i = 0; i < 10; i++) {
+            // To ensure fairer scheduling
+            Collections.shuffle(interviewers);
+            Collections.shuffle(interviewees);
+
+            BipartiteGraph graph = new BipartiteGraphGenerator(interviewers, interviewees).generate();
+            HopcroftKarp algorithm = new HopcroftKarp(graph);
+            algorithm.execute();
+            int currNumMatching = assignSlots(graph);
+
+            if (currNumMatching > maxMatching) {
+                optimumGraph = graph;
+                maxMatching = currNumMatching;
+            }
+
+            model.resetDataBeforeScheduling();
+        }
+
+        model.resetDataBeforeScheduling();
+
+        return optimumGraph;
     }
 
     /**
