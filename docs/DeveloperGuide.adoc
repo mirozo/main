@@ -513,7 +513,7 @@ with the only difference being in the string processing methods in the `CsvReade
 
 The following activity diagram summarizes what happens when a user executes a new command:
 
-.Import Activity Diagram
+.Import Activity Diagram +
 image::ImportActivityDiagram.png[]
 
 
@@ -525,7 +525,7 @@ The following are some of the notable areas of implementation of these 2 methods
 
 `readInterviewers()`: +
 
-.Reading interviewers Sequence Diagram
+.Reading interviewers Sequence Diagram +
 image::ReadInterviewersSequenceDiagram.png[]
 
 
@@ -549,7 +549,9 @@ The list of schedules in the <<Model component, model>> should be updated every 
 the IntervieweeList or InterviewerList in the model. This is because Schedules are dependent on both Interviewers and Interviews
 as shown in the class diagram below.
 
+.Schedule Class Diagram +
 image::ScheduleClassDiagram.png[]
+
 
 These are the commands that requires the update of the list
 of schedules - `add`, `delete`, `edit`, `import`, `clear` and `schedule`.
