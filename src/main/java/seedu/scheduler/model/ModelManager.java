@@ -355,8 +355,8 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Generates an empty schedule list from the current interviewer list. Used to generate GUI after user imports data
-     * and also before the user runs a schedule command.
+     * Generates an empty schedule list from the current interviewer list. Used to generate GUI after user modifies data
+     * in InterviewerList, before the user runs a schedule command.
      *
      * @return ArrayList of {@Code Schedule}
      * @throws ParseException when timings are not of HH:mm format

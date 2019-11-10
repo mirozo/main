@@ -198,16 +198,16 @@ NOTE: The schedule displayed will only show timeslots within the <<Working Hours
 
 Key formatting information for Interviewer's Data:
 
+image::InterviewerData.png[]
 
+* 1. The first column of each day's schedule will consist of the timeslots for that day.
+* 2. Each timeslot should also be in the format `HH:mm - HH:mm`.
+* 3. The very first header at the top left-hand corner should indicate the day of the schedule. The subsequent headers should indicate the interviewers in the format `DEPARTMENT - INTERVIEWER'S_NAME`.
+* 4. A "1" in a timeslot represents that the interviewer in that column is *available* and "0" represents that he/she is *unavailable* for that particular timeslot.
+* 5. Separation of different days of schedules is made by leaving 2 empty lines after the end of the first table.
 
-* The first column of each day's schedule will consist of the timeslots for that day.
-* Each timeslot should also be in the format `HH:mm - HH:mm`.
-* The very first header at the top left-hand corner should indicate the day of the schedule. The subsequent headers should indicate the interviewers in the format `DEPARTMENT - INTERVIEWER'S_NAME`.
-* A "1" in a timeslot represents that the interviewer in that column is *available* and "0" represents that he/she is *unavailable* for that particular timeslot.
-* Separation of different days of schedules is made by leaving 2 empty lines after the end of the first table.
-
-Format of command: `import interviewer fp/PATH_TO_FILE` +
-    - PATH_TO_FILE is the absolute path to the file. +
+Format of command: `import interviewer fp/FILE_PATH` +
+    - FILE_PATH needs to be of .csv extension +
     - E.g. C:\\Users\Bob\file.csv
 
 Example:
@@ -228,12 +228,11 @@ NOTE: There will be no changes in the schedules tab after the import of intervie
 Key formatting information for Interviewee's Data:
 
 * Headers specify the details of the Interviewee to be imported. The order of the headers must be strictly followed as shown in the above template.
-* Emails: Adding more than 1 personal or work email is allowed. Use whitespaces to separate each email.
 * Timeslots: Each timeslot should be in the format `dd/MM/yyy HH:mm - HH:mm`. Use commas to separate the timeslots if there are more than 1.
 * There can only be 1 unique value for all other fields. Commas should not be used in these fields.
 
-Format: `import interviewee fp/PATH_TO_FILE` +
-    - PATH_TO_FILE is the absolute path to the file. +
+Format: `import interviewee fp/FILE_PATH` +
+    - FILE_PATH needs to be of .csv extension. +
     - E.g C:\\Users\Bob\file.csv
 
 Example:
