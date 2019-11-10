@@ -134,6 +134,7 @@ public class MainApp extends Application {
         }
 
         // For now ModelManager is always initialised with sample schedulesList first
+
         List<Schedule> schedules = SampleDataUtil.getSampleSchedulesList();
 
         return new ModelManager(initialIntervieweeList, initialInterviewerList, userPrefs, schedules);

@@ -328,6 +328,8 @@ The following are some of the notable areas of implementation of these 2 methods
 
 `readInterviewers()`: +
 
+image::ReadInterviewersSequenceDiagram.png[]
+
 * This method reads the imported file line-by-line. Number of days (each day is represented by 1 table) and the number of interviewers has to be specified at the beginning of the CSV file.
 * It generates a list of interviewers (with no availabilities yet) from the headers of each table.
 * Then, it will iterate through every line of each table and adds the availabilities to the respective interviewers.

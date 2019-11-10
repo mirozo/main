@@ -55,7 +55,7 @@ public class ModelManager implements Model {
     private final IntervieweeList intervieweeList; // functionality not stable, refrain from using
     private final InterviewerList interviewerList;
     private final FilteredList<Interviewee> filteredInterviewees; // if we want to display all interviewees on UI
-    private final FilteredList<Interviewer> filteredInterviewers; // if we want to display all inteviewers on UI
+    private final FilteredList<Interviewer> filteredInterviewers; // if we want to display all interviewers on UI
 
     private RefreshListener refreshListener;
     private TabListener tabListener;
@@ -98,6 +98,7 @@ public class ModelManager implements Model {
     public boolean isScheduled() {
         return this.appStatus.isScheduled();
     }
+
 
     // ================================== IntervieweeList and InterviewerList ======================================
 
@@ -489,7 +490,7 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Updates schedule list with an empty schedule list.
+     * Updates schedule list based on interviewer's data.
      */
     public void updateScheduleList() {
         try {
