@@ -134,7 +134,11 @@ public class ImportCommand extends Command {
      * @throws DuplicatePersonException when there is a duplicate entry
      */
     public static void checkForDuplicateInterviewerEntries(ArrayList<Interviewer> interviewers,
+<<<<<<< HEAD
                                                            ObservableList<Interviewer> modelList)
+=======
+            ObservableList<Interviewer> modelList)
+>>>>>>> e8736951f8be4c8d5b473d69aaa780c957765568
             throws DuplicatePersonException {
         InterviewerList interviewerList = new InterviewerList();
         for (Interviewer interviewer: modelList) {
@@ -152,7 +156,11 @@ public class ImportCommand extends Command {
      * @throws DuplicatePersonException when there is a duplicate entry
      */
     public static void checkForDuplicateIntervieweeEntries(ArrayList<Interviewee> interviewees,
+<<<<<<< HEAD
                                                            ObservableList<Interviewee> modelList)
+=======
+            ObservableList<Interviewee> modelList)
+>>>>>>> e8736951f8be4c8d5b473d69aaa780c957765568
             throws DuplicatePersonException {
         IntervieweeList intervieweeList = new IntervieweeList();
         for (Interviewee interviewee: modelList) {

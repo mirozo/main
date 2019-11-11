@@ -72,6 +72,7 @@ image::ArchitectureSequenceDiagram.png[]
 
 The sections below give more details of each component.
 
+// tag::UiDesign[]
 [[Design-Ui]]
 === UI component
 
@@ -165,6 +166,8 @@ of interviewees
 .UI Refresh During Data Import Sequence Diagram
 image::ImportUIRefreshSequenceDiagram.png[]
 
+// end::UiDesign[]
+
 // tag::logic[]
 
 [[Design-Logic]]
@@ -219,13 +222,17 @@ image::ModelClassDiagram.png[]
 
 The `Model`,
 
+* stores an `AppStatus` singleton object which encapsulates the state of the application.
 * stores a `UserPref` object that represents the user's preferences.
 * stores a list of `Schedule`. Each `Schedule` represents a schedule timetable.
+* stores a `RefreshListener` to refresh the displayed schedules in the UI indirectly when the data of interviewers, interviewees,
+or the schedules changes.
+* stores a `TabListener` to refresh the tabs in the UI when data changes.
 * exposes a list of `ObservableList<ObservableList<String>>` that can be 'observed' by the UI. Each of the
   `ObservableList<ObservableList<String>>` represents the data of a `Schedule` object.
   The `ObservableList<ObservableList<String>>` objects are bound to the UI so that the UI automatically updates  when the data of the `Schedule` objects changes.
 * exposes a list of `ObservableList<Interviewee>` that can be 'observed' by the UI.
-* does not depend on any of the other three components.
+* does not depend on any of the three components.
 
 ==== Schedule
 The `Schedule` objects are filled up and created by the imported interviewer's availability. The inner data of a `Schedule` object is the same as the corresponding availability
@@ -268,7 +275,7 @@ An `Interviewer` is associated with the following `Prefix`:
 The Activity Diagram below illustrates the general flow of logic from command input (by a user) to command execution:
 
 .A general Activity Diagram illustrating logic flow in the `Logic` component.
-image::LogicGeneralActivityDiagram.png[]
+image::LogicGeneralActivityDiagram.png[200, 400]
 
 NOTE: The box labelled "Command execution" is a *rake*. It indicates that part of the activity is given as a separate diagram.
 Each of <<Add Interviewee/Interviewer feature, add>>, <<Edit Interviewee/Interviewer feature, edit>> and <<Delete Interviewee/Interviewer feature, delete>> provide their own versions of "Command execution".
@@ -280,7 +287,7 @@ Each of <<Add Interviewee/Interviewer feature, add>>, <<Edit Interviewee/Intervi
 ==== Add Interviewee/Interviewer feature
 The `add` command feature essentially allows a user to add an `Interviewee` or `Interviewer` object to the underlying `IntervieweeList`
  or `InterviewerList` of `ModelManager`.
-Upon successful parsing of the `add` command arguments, an instance of `Interviewee`/`Interviewer` is created based on the `r/ROLE` prefix supplied,
+Upon successful parsing of the `add` command arguments, an instance of `Interviewee`/`Interviewer` is created based on the preamble supplied,
 which is added to its corresponding list in `ModelManager`.
 The underlying `UniquePersonList` of `IntervieweeList` and `InterviewerList` ensures
 that no duplicate entities are present at any time, checked by Interviewee#isSamePerson() and Interviewer#isSamePerson().
@@ -365,6 +372,8 @@ the continuation of the *rake* from the <<Add Edit and Delete feature, general a
 image::DeleteActivityDiagram.png[300, 400]
 
 // end::delete[]
+
+// tag::schedule[]
 
 === Scheduling Feature
 ==== Algorithm
@@ -486,6 +495,7 @@ image::InterviewSlotVertex.png[300, 550]
 .Executing Schedule Command Sequence Diagram
 image::ScheduleSequenceDiagram.png[]
 
+// end::schedule[]
 
 // tag::import[]
 
@@ -586,6 +596,7 @@ interviewers is < 100.
 
 // end::import[]
 
+
 ==== After Scheduling of Interviews
 
 After the scheduling algorithm is ran, each interviewer should have a list of allocated interviewee slots.
@@ -596,8 +607,6 @@ To prevent confusion and to ensure that the scheduled result is always updated w
 and interviewers, add/delete/edit of interviewee or interviewer after scheduling will clear the scheduled result and reset 
 the displayed schedules such that the schedules only display the availabilities of the interviewers. Thus, the user will need 
 to run the schedule command again to re-schedule the interviews.
-
-
 
 // tag::export[]
 
@@ -625,7 +634,7 @@ image::ExportActivityDiagram.png[]
 // end::export[]
 
 // tag::email[]
-=== [Coming soon in v1.4] Email
+=== Email
 ==== Implementation
 
 The Email feature makes use of the `java.awt.Desktop` package to activate the default Mail client of the user.
@@ -654,6 +663,8 @@ The message content can also be configured by the user. However, a default templ
 
 // end::email[]
 
+// tag::display[]
+
 === Display
 ==== Implementation
 
@@ -666,7 +677,12 @@ the following method:
 
 The activity diagram will provide the overall flow of this implementation.
 
-image::DisplayActivity.png
+image::DisplayActivity.png[]
+
+NOTE: For the activity diagram, plantUML is not able to have multiple alternate paths from a diamond. Thus, multiple diamonds are used to implement
+multiple alternate paths.
+
+// end::display[]
 
 === Logging
 
@@ -888,6 +904,7 @@ Use case ends.
 +
 Use case ends.
 
+// tag::DisplayUseCases[]
 === Use case: (UC-5) Display list of interviewee
 
 *MSS*
@@ -907,6 +924,9 @@ Use case resumes at step 1.
 * 1b1. Scheduler display invalid command to user.
 +
 Use case resumes at step 1.
+
+
+// end::DisplayUseCases[]
 
 === Use Case: (UC-6) Export Schedules
 
@@ -999,7 +1019,7 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
-<<<<<<< HEAD
+
 === Importing data
 
 . Import .csv files of interviewers' availability or interviewees' details using the `import` command.
@@ -1031,18 +1051,24 @@ These instructions only provide a starting point for testers to work on; testers
 .. To test this you can use type in the following after a schedule command has been ran: +
    `export fp/doesNotExistFile.csv` a file named "doesNotExistFile.csv" should be created in the same directory containing Scheduler.jar file.
 
+// tag::add_appendix[]
+
 === Adding an entity manually
 Please refer to the Add interviewees/interviewer section in the <<UserGuide#, user guide>> for more detailed information on the `add` command.
 
 For simplicity, we refer to interviewees and interviewers as *entities* collectively.
 
 . Upon launching Scheduler, input the following command to add an interviewee:
-.. `add r/interviewee n/Ronald p/88888888 t/CAP5 t/dogLover f/School of Computing ep/JohnDoe@gmail.com ew/JohnDoe@u.nus.edu y/2018 d/Marketing s/20/09/2019 18:00-18:30`
+.. `add interviewee n/Ronald p/88888888 t/CAP5 t/dogLover f/School of Computing ep/JohnDoe@gmail.com ew/JohnDoe@u.nus.edu y/2 d/Marketing s/20/09/2019 18:00-18:30`
 . To add an interviewer, input the following command:
-.. `add r/interviewer n/Delilah p/98765432 ew/delilah@u.nus.edu d/Marketing s/20/09/2019 18:00-18:30`
+.. `add interviewer n/Delilah p/98765432 ew/delilah@u.nus.edu d/Marketing s/20/09/2019 18:00-18:30`
 . Expected: The Interviewees and Interviewers tab now reflects the newly added interviewee and interviewer, with each column in the tab corresponding to the various fields input.
 (i.e the column in the interviewees tab with header `name` now reflects `Ronald` as input by the user)
 . You can change the different prefix fields (e.g `n/Ronald`) to any valid value, as stated in the User Guide under the `add` command section.
+
+// end::add_appendix[]
+
+// tag::edit_appendix[]
 
 === Editing an entity
 Please refer to the Edit interviewees/interviewer section in the <<UserGuide#, user guide>> for more detailed information on the `edit` command.
@@ -1057,6 +1083,10 @@ This section follows directly from the previous section, <<Adding an entity manu
 . Expected: The Interviewers tab now reflects the edited interviewer, where `Delilah` now has an email `delilah1995@u.nus.edu`.
 . You can change, include or exclude the different prefix fields as long as within the boundaries specified in the User Guide under the `edit` command section.
 
+// end::edit_appendix[]
+
+// tag::delete_appendix[]
+
 === Deleting an entity
 Please refer to the Delete interviewees/interviewer section in the <<UserGuide#, user guide>> for more detailed information on the `delete` command.
 
@@ -1069,6 +1099,28 @@ This section follows directly from the previous section, <<Editing an entity, Ed
 .. `delete Delilah r/interviewer`
 . Expected: The Interviewers tab now similar reflects the deleted interviewer `Delilah`.
 . You can delete any entity as long as the entity's name is shown in the Interviewee/Interviewer tab. See the User Guide under the `delete` command section for specifics.
+
+// end::delete_appendix[]
+
+// tag::ManualDisplay[]
+
+=== Displaying different views from the Scheduler
+Please refer to the UI Display section in the <<UserGuide#, user guide>> for more detailed information on the `display` command.
+
+. Type `display interviewee` to display a list of interviewee in the scheduler.
+. Expected: A table will be shown with the list of interviewees arranged in this format:
+. Table will be filled when a list of interviewee is imported into the Scheduler.
+. You can also display the list of interviewers and the scheduled table by the command `display interviewer` and `display schedule` respectively.
+. The format for the displays are shown below.
+
+image::intervieweeListFormat.png[]
+image::interviewerListFormat.png[]
+image::scheduleListFormat.png[]
+
+// end::ManualDisplay[]
+
+
+// tag::scheduleTest[]
 
 === Scheduling Interviews
 . Import .csv files of interviewers' availability and interviewees' details using the `import` command.
@@ -1097,24 +1149,4 @@ This section follows directly from the previous section, <<Editing an entity, Ed
 .. You can also test the opposite way, i.e. design test data which contains interviewees that cannot be allocated a slot and check
    if the name of the interviewee does not exist in the schedule.
 
-=== Deleting a person
-
-. Deleting a person while all persons are listed
-
-.. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
-.. Test case: `delete 1` +
-   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-.. Test case: `delete 0` +
-   Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
-   Expected: Similar to previous.
-
-_{ more test cases ... }_
-
-=== Saving data
-
-. Dealing with missing/corrupted data files
-
-.. _{explain how to simulate a missing/corrupted file and the expected behavior}_
-
-_{ more test cases ... }_
+// end::scheduleTest[]
