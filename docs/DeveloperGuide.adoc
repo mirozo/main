@@ -582,8 +582,10 @@ the schedules every time a command is ran. However, this will not be a big issue
 interviewers is < 100.
 
 ==== After Scheduling of Interviews
-//To do:
-
+To prevent confusion and to ensure that the scheduled result is always updated with the latest database of interviewees 
+and interviewers, add/delete/edit of interviewee or interviewer after scheduling will clear the scheduled result and reset 
+the displayed schedules such that the schedules only display the availabilities of the interviewers. Thus, the user will need 
+to type `schedule` again to schedule the interviews.
 
 
 === Export
