@@ -588,9 +588,9 @@ After the scheduling algorithm is ran, each interviewer should have a list of al
 With these slots and the current time table (with interviewers only) generated before the scheduling of interviews,
 we are able to update the current schedules by slotting in the allocated interviewee's slots.
 
-To prevent confusion and to ensure that the scheduled result is always updated with the latest database of interviewees 
-and interviewers, add/delete/edit of interviewee or interviewer after scheduling will clear the scheduled result and reset 
-the displayed schedules such that the schedules only display the availabilities of the interviewers. Thus, the user will need 
+To prevent confusion and to ensure that the scheduled result is always updated with the latest database of interviewees
+and interviewers, add/delete/edit of interviewee or interviewer after scheduling will clear the scheduled result and reset
+the displayed schedules such that the schedules only display the availabilities of the interviewers. Thus, the user will need
 to run the schedule command again to re-schedule the interviews.
 
 === Export
