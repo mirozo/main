@@ -48,7 +48,7 @@ Look at section "Updating Schedule List" in Developer's Guide for a better idea 
 *** Added User Stories https://github.com/AY1920S1-CS2103-F09-1/main/pull/35[35] and Use Cases https://github.com/AY1920S1-CS2103-F09-1/main/pull/186[186]
 ** Community:
 *** PRs reviewed (with non-trivial review comments): https://github.com/AY1920S1-CS2103-F09-1/main/pull/161[#161]
-*** Handled merge conflicts for team: https://github.com/AY1920S1-CS2103-F09-1/main/pull/80[#80]
+*** Handled merge conflicts for team: https://github.com/AY1920S1-CS2103-F09-1/main/pull/78[78] https://github.com/AY1920S1-CS2103-F09-1/main/pull/80[#80]
 
 == Contributions to the User Guide
 

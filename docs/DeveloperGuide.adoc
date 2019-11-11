@@ -65,9 +65,9 @@ image::LogicClassDiagram.png[]
 [discrete]
 ==== How the architecture components interact with each other
 
-The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `clear`.
 
-.Component interactions for `delete 1` command
+.Component interactions for `clear` command
 image::ArchitectureSequenceDiagram.png[]
 
 The sections below give more details of each component.
@@ -199,7 +199,7 @@ A command entered by the user is processed as follows:
 . The execution produces a result, which is encapsulated in a `CommandResult` object and returned to `LogicManager`.
 . `LogicManager` the processes the `CommandResult`. The `CommandResult` can instruct to `Ui` to perform certain actions,
 such as displaying help to the user.
-. Finally, `LogicManager` calls the `Storage` components to save the current `Model` to the hard disk.
+. Finally, `LogicManager` calls the `Storage` component to save the current `Model` to the hard disk.
 
 Given below is the general Sequence Diagram for interactions within the `Logic` component for the execution of the `add`,
 `edit` and `delete` API calls. Refer to <<Implementation, Section 3: Implementation>> for how different `Command` objects
@@ -238,6 +238,7 @@ or the schedules changes.
 The `Schedule` objects are filled up and created by the imported interviewer's availability. The inner data of a `Schedule` object is the same as the corresponding availability
 table in the imported interviewer's availability. The data of the `Schedule` can be changed after running the scheduling algorithm.
 
+// tag::storage[]
 [[Design-Storage]]
 === Storage component
 
@@ -249,7 +250,10 @@ image::StorageClassDiagram.png[]
 The `Storage` component,
 
 * can save `UserPref` objects in json format and read it back.
-* can save the Address Book data in json format and read it back.
+* can save the list of Interviewees data in json format and read it back.
+* can save the list of Interviewers data in json format and read it back.
+
+// end::storage[]
 
 [[Design-Commons]]
 === Common classes
@@ -264,15 +268,14 @@ This section describes some noteworthy details on how certain features are imple
 === Add, Edit and Delete feature
 The `add`, `edit` and `delete` features allow interviewees and interviewers to be manually added to Scheduler.
 
-An `Interviewee` is associated with the following `Prefix`:
+The flow of logic for a successful execution of these commands can be summarised as follows:
 
-* `n/NAME`, `p/PHONE`, `t/TAG`, `f/FACULTY`, `y/YEAR_OF_STUDY`, `d/DEPARTMENT`, `s/SLOT`, `ep/PERSONAL_EMAIL` and `ew/NUS_WORK_EMAIL`.
+. Parse user input and populate an `ArgumentMultimap` instance with a mapping of prefixes (from user input) to String arguments following those prefixes.
+. Check the validity of these arguments using the `ParserUtil` class.
+. If the arguments are valid, carry out the necessary modifications to the `ModelManager` class, which contains the underlying `IntervieweeList` and `InterviewerList`
+, which we store our entities in.
 
-An `Interviewer` is associated with the following `Prefix`:
-
-* `n/NAME`, `p/PHONE`, `t/TAG`, `s/SLOT`, `d/DEPARTMENT` and `ew/NUS_WORK_EMAIL`.
-
-The Activity Diagram below illustrates the general flow of logic from command input (by a user) to command execution:
+The Activity Diagram below further illustrates the general flow of logic from command input (by a user) to command execution:
 
 .A general Activity Diagram illustrating logic flow in the `Logic` component.
 image::LogicGeneralActivityDiagram.png[200, 400]
@@ -285,11 +288,13 @@ Each of <<Add Interviewee/Interviewer feature, add>>, <<Edit Interviewee/Intervi
 // tag::add[]
 
 ==== Add Interviewee/Interviewer feature
-The `add` command feature essentially allows a user to add an `Interviewee` or `Interviewer` object to the underlying `IntervieweeList`
+The `add` command feature allows a user to add an `Interviewee` or `Interviewer` object to the underlying `IntervieweeList`
  or `InterviewerList` of `ModelManager`.
-Upon successful parsing of the `add` command arguments, an instance of `Interviewee`/`Interviewer` is created based on the preamble supplied,
-which is added to its corresponding list in `ModelManager`.
-The underlying `UniquePersonList` of `IntervieweeList` and `InterviewerList` ensures
+
+. Upon successful parsing of the `add` command arguments, an instance of `Interviewee`/`Interviewer` is created. (depending on the preamble supplied in the user input)
+.. I.e: `add interviewee n/John Doe`. The preamble starts after the command word "add" and before the first prefix "n/".
+. ModelManager#addInterviewee() is then called to add the entity to its corresponding list in `ModelManager`.
+.. The underlying `UniquePersonList` of `IntervieweeList` and `InterviewerList` ensures
 that no duplicate entities are present at any time, checked by Interviewee#isSamePerson() and Interviewer#isSamePerson().
 
 The following *Sequence Diagram* illustrates how the `add interviewee` command works. The `add interviewer` command works in a similar manner.
@@ -299,9 +304,11 @@ image::AddSequenceDiagram.png[]
 
 NOTE: The lifeline for `AddCommandParser` and `AddIntervieweeCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
+
 ====
 * See the general logic sequence diagram in <<Logic component, Section 2.3: Logic component>> for a more complete view of how
 `Storage` is affected as well.
+* For brevity, the input arguments to functions referenced in this guide may be omitted.
 ====
 
 To better illustrate the flow of events from the moment a user inputs an add command till completion of the command,
@@ -317,10 +324,15 @@ image::AddActivityDiagram.png[300,400]
 ==== Edit Interviewee/Interviewer feature
 The `edit` command allows a user to edit an `Interviewee` or `Interviewer` in the underlying `IntervieweeList` or `InterviewerList` of
 `ModelManager`.
-This is done through an `EditIntervieweeDescriptor` or `EditInterviewerDescriptor`, which stores the details to update the
-`Interviewee`/`Interviweer` with, which is created upon successful parsing of the `edit` command.
-A *new instance* of `Interviewee`/`Interviewer` is then created from the descriptor.
-The `Interviewee`/Interviewer` to be updated is then retrieved from the list by name, and is *replaced with the new instance*.
+
+. Upon successful parsing of the `edit` command arguments, the parser checks the `r/ROLE` prefix supplied
+. If "interviewee" is supplied, an `EditIntervieweeDescriptor` which stores the details to update the
+`Interviewee` with is created with arguments from the user input, stored in `ArgumentMultimap`.
+.. `ArgumentMultimap` is filled by a call to ArgumentMultimap.tokenize().
+. If "interviewer" is supplied, an `EditInterviewerDescriptor` is created and populated instead.
+. A *new instance* of `Interviewee` or `Interviewer` is then created from the descriptor.
+The entity to be updated is then retrieved from the list by name, and is *replaced with the new instance*.
+.. ModelManager#setInterviewee() or ModelManager#setInterviewer() is called.
 
 The following *Sequence Diagram* below shows how the `edit interviewee` command works. The `edit interviewer` command works in a similar manner.
 
@@ -347,11 +359,12 @@ image::EditActivityDiagram.png[300, 400]
 ==== Delete Interviewee/Interviewer feature
 The `delete` command allows a user to delete an `Interviewee` or `Interviewer` from the underlying `IntervieweeList` or `InterviewerList`
 of `ModelManager`.
-Upon successful parsing of the `delete` command's arguments, the name of the person to delete is retrieved.
-Based on the `r/ROLE` prefix supplied, the `IntervieweeList` or `InterviewerList` is searched, and the `Interviewee`/`Interviewer` with
-a matching name is deleted.
 
-* Note that the underlying `UniquePersonList` ensures that there are no two same `Interviewee`/`Interviewer` with the same name in the list.
+. Upon successful parsing of the `delete` command's arguments, the name of the person to delete is retrieved.
+. Based on the `r/ROLE` prefix supplied, the `IntervieweeList` or `InterviewerList` is searched, and the `Interviewee`/`Interviewer` with
+a matching name is deleted.
+.. ModelManager#deleteInterviewee() or ModelManager#deleteInterviewer() is called.
+.. Note that the underlying `UniquePersonList` ensures that there are no two interviewees or interviewers with the same name in the list.
 
 The following *Sequence Diagram* below shows how the `delete interviewee` command works. The `delete interviewer` command works in a similar manner.
 
@@ -637,27 +650,36 @@ image::ExportActivityDiagram.png[]
 === Email
 ==== Implementation
 
-The Email feature makes use of the `java.awt.Desktop` package to activate the default Mail client of the user.
+The Email feature makes use of the `java.awt.Desktop` package to activate the default Mail client of the user. For the case of computers without a Mail client available, this feature will not be supported (mainly for headless computers such as servers).
 
-* The `To:` field is automatically populated with all the emails that are tagged to a particular Interviewee.
-* The `Cc:` field is configurable by the user via an optional configuration file.
+* The `To:` field is automatically populated with all the emails that are tagged to a particular Interviewee. This combines all the emails of both the `PERSONAL` and `NUS` email types.
+* The `Cc:` field is configurable by the user via an optional user preferences file (located in `preferences.json`)
 * The subject and message body are also automatically populated with details that are relevant to the Interviewee, depending on the context of the command used.
 
-.Email Sequence Diagram
+.Email Sequence Diagram for emailing a particular interviewee
 image::EmailSequenceDiagram.png[]
 
-===== Example: Interview timeslot
+A similar implementation is used when emailing all interviewees (i.e. using the `alltimeslot` command type). However, interviewees with the `emailSent` boolean variable set to true will not be sent an email again. This can be overridden by emailing that particular interviewee again (using the `timeslot` command type).
 
-This is for opening the email dialog for sending the email to the Interviewee of his/her allocated interview timeslot. Details that vary according to the Interviewee include:
+The user is also able to check the email sending status (i.e. if a particular interviewee has been emailed before) using the `status` command type. It is simply going through the list of interviewees stored in the application and counting the number of interviewees with the `emailSent` boolean variable set to true.
 
+Notes:
+
+* To the application, an email is considered as sent when the email window successfully opens on the user's computer. It does not recognise the actual email being sent across the Internet.
+
+===== Example: Email interview timeslot to an interviewee
+
+When the application opens an email dialog for sending the email to the selected Interviewee, the email dialog will be automatically populated with information on his/her allocated interview timeslot. The email message body also contains information that are customised to each Interviewee.
+
+Details that vary according to the Interviewee include:
+
+* Name of the Interviewee
 * Date and time of allocated timeslot
-* Interviewer allocated
 
 Additional details that can be configured by the user (as user preferences) include:
 
 * Location to report
-* Dress code
-* Any other additional information
+* Any other additional information such as dress code.
 
 The message content can also be configured by the user. However, a default template will be used when no such configuration file exists or is provided.
 
