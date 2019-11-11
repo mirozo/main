@@ -575,6 +575,7 @@ the allowed timeslots for each day. Each unique date should generate a Schedule 
 a list of Schedules.
 * Lastly, it will set the `scheduleList` in the model with the newly generated list of schedules.
 
+
 By re-generating the schedule list every time InterviewerList is modified, it does not matter whether
 an Interviewer is added or deleted, or if an attribute of an interviewer is modified, the schedule list
 will be responsive to these changes. The only trade-off is performance, due to the re-generation of
@@ -582,7 +583,16 @@ the schedules every time a command is ran. However, this will not be a big issue
 interviewers is < 100.
 
 ==== After Scheduling of Interviews
-//To do:
+
+After the scheduling algorithm is ran, each interviewer should have a list of allocated interviewee slots.
+With these slots and the current time table (with interviewers only) generated before the scheduling of interviews,
+we are able to update the current schedules by slotting in the allocated interviewee's slots.
+
+To prevent confusion and to ensure that the scheduled result is always updated with the latest database of interviewees 
+and interviewers, add/delete/edit of interviewee or interviewer after scheduling will clear the scheduled result and reset 
+the displayed schedules such that the schedules only display the availabilities of the interviewers. Thus, the user will need 
+to run the schedule command again to re-schedule the interviews.
+
 === Export
 ==== Implementation
 The Export command gets the scheduled time slots from the Model and writes them in the specified .csv file.
@@ -596,7 +606,7 @@ Below shows the sequence diagram of an example export command.
 image::ExportSequenceDiagram.png[]
 
 
-The implementation is very similar to the Import feature. The only differences are in the Model where CsvWriter gets
+The implementation is similar to the Import feature. The only differences are in the Model where CsvWriter gets
 the scheduled time slots from the Model and proceeds to write it into the specified file using a `BufferedWriter`.
 
 The Activity Diagram below summarises the execution of the export command.
