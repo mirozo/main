@@ -176,6 +176,7 @@ Format: `help`
 === Importing existing availabilities `import`
 2 types of data can be imported - interviewers' availabilities and interviewees' details.
 Both of these details needs to be in CSV format and must follow the format given in the templates below.
+These templates were adapted versions of NUSync's interview sign up excel sheets.
 The templates for the import commands can be found here:
 
 * Interviewers' availability: http://bit.ly/interviewerTemplate

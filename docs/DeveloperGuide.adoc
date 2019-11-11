@@ -583,9 +583,6 @@ interviewers is < 100.
 
 ==== After Scheduling of Interviews
 //To do:
-
-
-
 === Export
 ==== Implementation
 The Export command gets the scheduled time slots from the Model and writes them in the specified .csv file.
