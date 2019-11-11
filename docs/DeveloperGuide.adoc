@@ -28,6 +28,7 @@ Refer to the guide <<SettingUp#, here>>.
 .Architecture Diagram
 image::ArchitectureDiagram.png[]
 
+
 The *_Architecture Diagram_* given above explains the high-level design of the App. Given below is a quick overview of each component.
 
 [TIP]
@@ -78,6 +79,8 @@ The sections below give more details of each component.
 
 .Structure of the UI Component
 image::UiClassDiagram.png[]
+
++
 
 *API* : link:{repoURL}src/main/java/seedu/scheduler/ui/Ui.java[`Ui.java`]
 
@@ -414,6 +417,8 @@ The **activity diagram** below summarises the key steps in the algorithm.
 
 .HopcroftKarp Algorithm Activity Diagram
 image::HopcroftKarp.png[300, 500]
+
+
 
 Referring to the diagram above, a graph between interviewees and interview slots will first be built. Specifically, the graph built is a bipartite
 graph where each interviewee is linked to the slot that it can match and vice versa, but interviewees are not linked with each
