@@ -9,6 +9,7 @@ box API
 participant ":BufferedReader" as BufferedReader LOGIC_COLOR
 end box
 
+
 [-> CsvReader : readInterviewers()
 activate CsvReader
 

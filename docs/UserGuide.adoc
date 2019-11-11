@@ -229,11 +229,11 @@ the availability of the interviewers in 1 day.
 regardless of whether the interviewer is not available for that entire day.
 
 * 2. The first column of each day's schedule will consist of the timeslots for that day. Each timeslot should also be in the format `HH:mm - HH:mm`.
-** Time slots must obey the allowed values that are specified in the <<User Preferences, User Preferences>>.
+Time slots must obey the allowed values that are specified in the <<User Preferences, User Preferences>>.
 
 * 3. The leftmost header in the first row of a table should indicate the **date** of the schedule. The subsequent headers
 of the first row should indicate the **interviewers details** in the format of `DEPARTMENT - INTERVIEWER'S_NAME`.
-** Except the date, the first row, which are the interviewers details, of every table in the .csv file needs to be the same.
+Except the date, the first row, which are the interviewers details, of every table in the .csv file needs to be the same.
 
 * 4. A "1" in a timeslot represents that the interviewer in that column is *available* and "0" represents that he/she is *unavailable* for that particular timeslot.
 
@@ -260,7 +260,6 @@ NOTE: There will be no changes in the schedules tab after the import of intervie
 Key formatting information for Interviewee's Data:
 
 image::IntervieweeData.png[]
-
 
 * The first row specifies the details of the Interviewee to be imported. The order of the headers in the first row must be strictly followed as shown in the above template.
 * The constraints of the interviewee details(i.e. format) in Add/Delete/Edit command also applies to the interviewee details in the imported data as well.
