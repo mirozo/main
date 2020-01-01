@@ -71,3 +71,38 @@ include::../DeveloperGuide.adoc[tag=import]
 
 include::../DeveloperGuide.adoc[tag=export]
 
+== PROJECT: ShopList
+
+---
+
+image::ShopList.jpg[]
+
+== Overview
+
+ShopList is an android application that acts as a shopping list. It is also able to capture and record the expenditures of users, and gives a breakdown of their spending in interactive charts/graphs.
+Being designed with convenience in mind, ShopList also allows users to record past expenditures by simply taking a picture of their receipts, by making use of Google Vision's image to text recognition API. It is written in Java, and has around 2kLoC.
+
+== Summary of contributions
+
+* *Major enhancements*:
+** *Create, read, edit and delete for both shopping lists and expenditure lists*
+
+image::ShopListItems.png[]
+
+*** What it does: Allows the user to view, add, edit and delete items in their lists.
+*** Highlights: Had to create a local database using mySQL to save and manipulate application data.
+
+** *Wrote the logic behind the Scanning Receipts feature*
+*** What it does: Allows the user to conveniently import expenditures into the application by taking pictures of past receipts.
+*** Justification: It will save the user lots of time and effort from manually entering each item that they bought into the app.
+*** Highlights: Had to work with the Image to Text Recognition API that we used and hence required an in depth understanding of it. Also needed to allow the application to access both the storage of the device as well as the camera to perform this feature.
+
+** *Wrote the logic behind the Dashboard*
+
+image::ShopListDashboard.png[]
+
+*** What it does: Allows users to view the breakdown of their spending history. The pie chart displays expenditure breakdown by category, highlighting the average and highest expenditure.
+The bar chart displays the expenditure breakdown in months, with each bar representing total expenditure in the respective month.
+*** Justification: Users will be able to see trends in their expenditures at a glance, and understand more about their past spending, allow them to make more informed changes to their spending habits.
+
+
